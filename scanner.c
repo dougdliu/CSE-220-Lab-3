@@ -39,6 +39,9 @@ static char src_name[MAX_FILE_NAME_LENGTH];
 static char todays_date[DATE_STRING_LENGTH];
 static CharCode char_table[256];  // The character table
 
+//Global pointer for pointing to current line being tokenized
+static char* src_ptr = NULL;
+
 typedef struct
 {
     char *string;
@@ -160,16 +163,35 @@ static ??? get_special(???)
      some are double-character.  Set the token appropriately.
      */
 }
-static ??? downshift_word(???)
+static void downshift_word(char *dPtr)
 {
     /*
      Make all of the characters in the incoming word lower case.
      */
+	//continue to loop until end of string is reached
+	while(*dPtr != '\0')
+	{
+		//dereference what dPtr is looking at, convert to lower, and replace old char with new
+		*dPtr = tolower(*dPtr);
+		dPtr++; //increment pointer to look at next character
+	}
 }
-static BOOLEAN is_reserved_word(???)
+static BOOLEAN is_reserved_word(char const *rPtr)
 {
     /*
      Examine the reserved word table and determine if the function input is a reserved word.
      */
+	for(int i = 0; i <= 9; i++)
+	{
+		for(int j = 0; j <= 10; j++)
+		{
+			//compare the string being pointed to by rPtr to reserved words in rw_table
+			//if match is found return true
+			if(strcmp(rPtr, rw_table[i][j].string) == 0)
+			{
+				return TRUE;
+			}
+		}
+	}
     return FALSE;
 }
