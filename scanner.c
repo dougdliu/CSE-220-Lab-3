@@ -11,7 +11,7 @@
 
 /*******************
  Static functions needed for the scanner
- You need to design the proper parameter list and 
+ You need to design the proper parameter list and
  return types for functions with ???.
  ******************/
 static ??? get_char(???);
@@ -65,20 +65,20 @@ void init_scanner(FILE *source_file, char source_name[], char date[])
     src_file = source_file;
     strcpy(src_name, source_name);
     strcpy(todays_date, date);
-    
+
     /*******************
-     initialize character table, this table is useful for identifying what type of character 
-     we are looking at by setting our array up to be a copy the ascii table.  Since C thinks of 
+     initialize character table, this table is useful for identifying what type of character
+     we are looking at by setting our array up to be a copy the ascii table.  Since C thinks of
      a char as like an int you can use ch in get_token as an index into the table.
      *******************/
-    
+
 }
 BOOLEAN get_source_line(char source_buffer[])
 {
     char print_buffer[MAX_SOURCE_LINE_LENGTH + 9];
 //    char source_buffer[MAX_SOURCE_LINE_LENGTH];  //I've moved this to a function parameter.  Why did I do that?
     static int line_number = 0;
-    
+
     if (fgets(source_buffer, MAX_SOURCE_LINE_LENGTH, src_file) != NULL)
     {
         ++line_number;
@@ -94,15 +94,93 @@ BOOLEAN get_source_line(char source_buffer[])
 Token* get_token()
 {
     char ch; //This can be the current character you are examining during scanning.
-    char token_string[MAX_TOKEN_STRING_LENGTH]; //Store your token here as you build it.
-    char *token_ptr = ???; //write some code to point this to the beginning of token_string
-    ???;  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
-    
+	char token_string[MAX_TOKEN_STRING_LENGTH]; //Store your token here as you build it.
+	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
+	int loop = FALSE;
+	Token token;  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
+	CharCode code;
+
+	//get_char will set global ptr src_ptr to the source_buffer line
+	//get_char will also set ch to the first character in source_buffer, if the end of line has been reached,
+	//otherwise will set ch to what GLOBAL src_ptr is currently looking at.
+	//other methods will set ch to the next char in the source_buffer after they have tokenized
+	ch = *src_ptr;
+	get_char(ch);
     //1.  Skip past all of the blanks
+
+
+	//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
+	//until we come to a token
+	do
+	{
+		if(ch == ' ')
+		{
+			//call function skip_blanks which returns a pointer to the first non-blank character
+			// if it reaches null terminator it will set ch to '\0' and come back here
+			skip_blanks(ch);
+			//now call get_char again to get a new line if ch is a null terminator
+			if(ch == '\0')
+			{
+				//There may be more spaces, need to continue to evaluate
+				loop = TRUE;
+				//call get_char to get a new source line
+				get_char(ch);
+			}
+			//if the current char being looked at is not a null terminator, go on
+			//to see if it is a comment. If not a comment we will loop to make sure it's not another space
+		}
+		//now check to see if there is a comment and skip over this as well
+		if(ch == '{')
+		{
+
+			loop = TRUE;
+			//skip_comment will return the character following the ending bracket
+			//src_ptr will also be pointing here
+			//it contains a loop to skip over all white spaces and chars within the comment
+			ch = skip_comment(ch);
+
+			//Now call get_char on ch to see what we are looking at (could be another comment or more spaces,
+			//so we cannot end loop yet).
+			get_char(ch);
+		}
+		else
+		{
+			loop = FALSE;
+		}
+
+	}while(loop);
+
+	//after this do-while loop we know that we are looking at something that is not a space or a comment block
+
     //2.  figure out which case you are dealing with LETTER, DIGIT, QUOTE, EOF, or special, by examining ch
+
+    //position 'ch' in char_table will return a CharCode corresponding to Letter, Digit, Quote, etc...
+	code = char_table[ch];
+	//check to see if code for ch is a LETTER
+	if(code == LETTER)
+	{
+		//pass in the token_string array to point to, and the current Token struct.
+		//get_word will set the tokens values appropriately so it can be returned
+		//to main
+		get_word(token_string, token);
+	}
+	//check to see if it is a digit
+	else if(code == DIGIT)
+	{
+		token = get_number(ch);
+	}
+	//check to see if it is a quote
+	else if(code == QUOTE)
+	{
+		token = get_string(ch);
+	}
+	else
+	{
+		get_special(ch);
+	}
     //3.  Call the appropriate function to deal with the cases in 2.
-    
-    return ???; //What should be returned here?
+
+   return token; //What should be returned here?
 }
 static ??? get_char(???)
 {
@@ -111,7 +189,7 @@ static ??? get_char(???)
      we should call get source line.  If at the EOF (end of file) we should
      set the character ch to EOF and leave the function.
      */
-    
+
     /*
      Write some code to set the character ch to the next character in the buffer
      */
@@ -122,10 +200,32 @@ static ??? skip_blanks(???)
      Write some code to skip past the blanks in the program and return a pointer
      to the first non blank character
      */
-    
+
 }
-static ??? skip_comment(???)
+static char skip_comment(char current_ch)
 {
+	//ch will come in as beginning bracket {
+	while(current_ch != '}')
+	{
+		//if current_ch
+		if(current_ch == '\0')
+		{
+			get_char(current_ch);
+		}
+		else
+		{
+		//move the src_pointer ahead on the source_line
+		src_ptr++;
+		current_ch = *src_ptr;
+		}
+
+	}
+	//increment src_ptr by 1 to look at what is following the ending bracket
+	src_ptr++;
+
+	current_ch = *src_ptr;
+	return current_ch;
+
     /*
      Write some code to skip past the comments in the program and return a pointer
      to the first non blank character.  Watch out for the EOF character.
@@ -136,9 +236,9 @@ static ??? get_word(???)
     /*
      Write some code to Extract the word
      */
-    
+
     //Downshift the word, to make it lower case
-    
+
     /*
      Write some code to Check if the word is a reserved word.
      if it is not a reserved word its an identifier.
