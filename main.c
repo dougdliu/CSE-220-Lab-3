@@ -11,7 +11,7 @@
 #include "print.h"
 #include "scanner.h"
 
-FILE *init_lister(const char *name, char source_file_name[], char dte[]);
+FILE *init_lister(const char *name, char source_file_name[], char date[]);
 void quit_scanner(FILE *src_file, Token *list);
 void add_token_to_list(Token *list, Token *new_token);
 
@@ -30,7 +30,7 @@ int main(int argc, const char * argv[])
         add_token_to_list(token_list, token);
         print_token(token);
     }
-    while (???);//What is the sentinal value that ends this loop?
+    while (token->code = END_OF_FILE);//What is the sentinal value that ends this loop?
     
     quit_scanner(source_file, token_list);
     return 0;
@@ -38,6 +38,12 @@ int main(int argc, const char * argv[])
 void add_token_to_list(Token *list, Token *new_token)
 {
     // Add new_token to the list knowing that list is a linked list.
+    
+    // Iterates to the last token in the list (by seeing when token->next == NULL), 
+    // then sets the next to new_tokwn
+    Token* temp;
+    for(temp = list; temp->next =! NULL; temp = temp->next) {}
+    temp->next = new_token;
 }
 void quit_scanner(FILE *src_file, Token *list)
 {
