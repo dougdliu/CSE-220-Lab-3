@@ -211,12 +211,24 @@ static ??? get_char(???)
      Write some code to set the character ch to the next character in the buffer
      */
 }
-static *char skip_blanks(???)
+static void skip_blanks(char *ch_ptr1)
 {
     /*
      Write some code to skip past the blanks in the program and return a pointer
      to the first non blank character
      */
+	//Move the src_ptr ahead on the source_line to the first nonblank character
+	//if it finds a ull terminator it will break out of while loop
+	//and ch will be set to the null terminator, otherwise it will be set
+	//to whatever character src_ptr is now looking at
+	while(*src_ptr == ' ' && *src_ptr != '\0')
+	{
+		src_ptr++;
+		
+	}
+	//after iterating through spaces and finding null terminator or a character,
+	//set ch to what src_ptr is now pointing at
+	*ch_ptr1 = *src_ptr;
 
 }
 static char skip_comment(char current_ch)
