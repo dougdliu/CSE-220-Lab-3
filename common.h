@@ -63,9 +63,10 @@ typedef struct Token
     LiteralType type;
     Tokencode code;
     // How do we do generics here for the literal value? Do we just keep a private variable for each possible literal?
-    int num_lit;
-    char* str_lit;
+    int int_lit;
     double real_lit;
+    char* str_lit;
+    char* identifier;
     struct Token* next;
 }
 Token;
