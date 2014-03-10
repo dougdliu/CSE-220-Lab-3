@@ -58,9 +58,15 @@ LiteralType;
  a literal value, and a token code.  It also must have a link to 
  another token since this must be stored as a linked list.
  ***************/
-typedef struct
+typedef struct Token
 {
-    //Missing code goes here
+    LiteralType type;
+    Tokencode code;
+    // How do we do generics here for the literal value? Do we just keep a private variable for each possible literal?
+    int num_lit;
+    char* str_lit;
+    double real_lit;
+    struct Token* next;
 }
 Token;
 
