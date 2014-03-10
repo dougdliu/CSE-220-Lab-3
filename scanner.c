@@ -21,8 +21,8 @@ static ??? get_word(???);
 static ??? get_number(???);
 static ??? get_string(???);
 static ??? get_special(???);
-static ??? downshift_word(???);
-static BOOLEAN is_reserved_word(???);
+static void downshift_word(char *dPtr);
+static BOOLEAN is_reserved_word(char const *rPtr);
 
 typedef enum
 {
@@ -62,6 +62,7 @@ const RwStruct rw_table[9][10] = {
 
 void init_scanner(FILE *source_file, char source_name[], char date[])
 {
+    int i;
     src_file = source_file;
     strcpy(src_name, source_name);
     strcpy(todays_date, date);
@@ -71,7 +72,23 @@ void init_scanner(FILE *source_file, char source_name[], char date[])
      we are looking at by setting our array up to be a copy the ascii table.  Since C thinks of
      a char as like an int you can use ch in get_token as an index into the table.
      *******************/
-
+    for(i = 0; i < 256; i++) {
+    	// Assign the letters
+    	if( (i > 64 && i < 91) || (i > 96 && i < 123) ) {
+    		char_table[i] = LETTER;
+    	}
+    	// Assign the digits
+    	else if(i > 47 && i < 58) {
+    		char_table[i] = DIGIT;
+    	}
+    	// Everything else is a special
+    	else {
+    		char_table[i] = SPECIAL;
+    	}
+    }
+    // Then rewrite the two execptions, the quotation mark and the period
+    char_table[34] = QUOTE;
+    char_table[46] = EOF_CODE;
 }
 BOOLEAN get_source_line(char source_buffer[])
 {
@@ -194,7 +211,7 @@ static ??? get_char(???)
      Write some code to set the character ch to the next character in the buffer
      */
 }
-static ??? skip_blanks(???)
+static *char skip_blanks(???)
 {
     /*
      Write some code to skip past the blanks in the program and return a pointer
