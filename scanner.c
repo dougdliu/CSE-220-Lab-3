@@ -310,7 +310,7 @@ static BOOLEAN is_reserved_word(char const *rPtr)
     /*
      Examine the reserved word table and determine if the function input is a reserved word.
      */
-	char *rw_table_ptr = &rw_table;
+	char *rw_table_ptr = rw_table;
 	for(int i = 0; i <= 9; i++)
 	{
 		for(int j = 0; j <= 10; j++)
