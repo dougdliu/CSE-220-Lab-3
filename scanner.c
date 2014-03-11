@@ -310,13 +310,16 @@ static BOOLEAN is_reserved_word(char const *rPtr)
     /*
      Examine the reserved word table and determine if the function input is a reserved word.
      */
+	char *rw_table_ptr = &rw_table;
 	for(int i = 0; i <= 9; i++)
 	{
 		for(int j = 0; j <= 10; j++)
 		{
+			//make pointer point to correct element of 2d array
+			rw_table_ptr = &rw_table[i][j];
 			//compare the string being pointed to by rPtr to reserved words in rw_table
 			//if match is found return true
-			if(strcmp(rPtr, rw_table[i][j].string) == 0)
+			if(strcmp(rPtr, rw_table_ptr->string) == 0)
 			{
 				return TRUE;
 			}
