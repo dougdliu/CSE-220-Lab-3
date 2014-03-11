@@ -179,21 +179,21 @@ Token* get_token()
 		//pass in the token_string array to point to, and the current Token struct.
 		//get_word will set the tokens values appropriately so it can be returned
 		//to main
-		get_word(token_string, token);
+		get_word(token_string, &token);
 	}
 	//check to see if it is a digit
 	else if(code == DIGIT)
 	{
-		token = get_number(ch);
+		 get_number(ch);
 	}
 	//check to see if it is a quote
 	else if(code == QUOTE)
 	{
-		token = get_string(ch);
+		get_string(ch);
 	}
 	else
 	{
-		get_special(ch);
+		get_special(&token);
 	}
     //3.  Call the appropriate function to deal with the cases in 2.
 
@@ -285,8 +285,50 @@ static ??? get_string(???)
      Write some code to Extract the string
      */
 }
-static ??? get_special(???)
+static void get_special(Token *token)
 {
+	char const *symbol_ptr = SYMBOL_STRINGS + 5;
+	
+	int symbol_code;
+	for(i=5;i<=20;i++)
+	{
+		if(strcmp(src_ptr, symbol_ptr) == 0)
+		{
+			if(*(src_ptr + 1) == '=' && *src_ptr == ':')
+			{
+				symbol_code = 21;
+				break;
+			}
+			else if(*(src_ptr + 1) == '=' && *src_ptr == '<')
+			{
+				symbol_code = 22;
+				break;
+			}
+			else if(*(src_ptr + 1) == '=' && &src_ptr == '>')
+			{
+				symbol_code = 23;
+				break;
+			}
+			else if(*(src_ptr + 1) == '>' && *src_ptr == '<')
+			{
+				symbol_code = 24;
+				break;
+			}
+			else if(*(src_ptr + 1) == '.' && *src_ptr == '.')
+			{
+				symbol_code = 25;
+				break;
+			}
+			else
+			{
+				symbol_code = i;
+			}
+		}
+		symbol_ptr++;
+	}
+	
+	//now set the token code to the symbol code
+	token->code = symbol_code;
     /*
      Write some code to Extract the special token.  Most are single-character
      some are double-character.  Set the token appropriately.
