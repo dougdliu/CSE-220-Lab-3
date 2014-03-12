@@ -297,31 +297,38 @@ static void get_special(Token *token)
 			if(*(src_ptr + 1) == '=' && *src_ptr == ':')
 			{
 				symbol_code = 21;
+				src_ptr += 2;
 				break;
 			}
 			else if(*(src_ptr + 1) == '=' && *src_ptr == '<')
 			{
 				symbol_code = 22;
+				src_ptr += 2;
 				break;
 			}
 			else if(*(src_ptr + 1) == '=' && &src_ptr == '>')
 			{
 				symbol_code = 23;
+				src_ptr += 2;
 				break;
 			}
 			else if(*(src_ptr + 1) == '>' && *src_ptr == '<')
 			{
 				symbol_code = 24;
+				src_ptr += 2;
 				break;
 			}
 			else if(*(src_ptr + 1) == '.' && *src_ptr == '.')
 			{
 				symbol_code = 25;
+				src_ptr += 2;
 				break;
 			}
 			else
 			{
+				src_ptr++;
 				symbol_code = i;
+				break;
 			}
 		}
 		symbol_ptr++;
