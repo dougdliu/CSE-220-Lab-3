@@ -60,21 +60,22 @@ void print_token(Token *token)
 {
     // Checks the code of the token against the enum TokenCode, and prints the appropriate one
     if(token->code == IDENTIFIER) {
-        printf("%s", token->identifier);
+        printf("     >> %17s%s", SYMBOL_STRINGS[token->code], token->identifier);
     }
     else if(token->code == NUMBER) {
         // Decides whether to print an integer or floating point number based on the enum LiteralType
         if(token->type == INTEGER_LIT) {
-            printf("%d", token->int_lit);
+            printf("     >> %17s%d", SYMBOL_STRINGS[token->code], token->int_lit);
         }
         else if(token->type == REAL_LIT) {
-            printf("%f", token->real_lit);
+            printf("     >> %17s%f", SYMBOL_STRINGS[token->code], token->real_lit);
         }
     }
     else if(token->code == STRING) {
-        printf("%s", token->str_lit);
+        printf("     >> %17s%s", SYMBOL_STRINGS[token->code], token->str_lit);
     }
     else {
-        printf("%s", SYMBOL_STRINGS[token->code]);
+        printf("     >> %17s%s", SYMBOL_STRINGS[token->code], downshift_word(SYMBOL_STRINGS[token->code]));
     }
 }
+%s
