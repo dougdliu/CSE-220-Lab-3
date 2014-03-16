@@ -134,7 +134,7 @@ Token* get_token()
 		{
 			//call function skip_blanks which returns a pointer to the first non-blank character
 			// if it reaches null terminator it will set ch to '\0' and come back here
-			skip_blanks(ch);
+			skip_blanks(&ch);
 			//now call get_char again to get a new line if ch is a null terminator
 			if(ch == '\0')
 			{
