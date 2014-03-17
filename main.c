@@ -53,7 +53,16 @@ void quit_scanner(FILE *src_file, Token *list)
     Token* temp = NULL;
     while(list != NULL) {
         temp = list->next;
-        free(list);
+        
+        // Free the token's internally allocated memory for word and/or str_lit based on the token code
+        if(list->code == IDENTIFIER) {
+            free(list->word);
+        }
+        else if(list->code == STRING && list->type == STRING_LIT) {
+            free(list->literal.str_lit);
+        }
+        
+        free(list); // Free the node
         list = temp;
     }
     fclose(src_file);
