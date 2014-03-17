@@ -115,7 +115,7 @@ Token* get_token()
 	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
 	int loop = FALSE;
 	Token token;  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
-	literal token_lit;
+	
 	CharCode code;
 
 	//get_char will set global ptr src_ptr to the source_buffer line
@@ -197,7 +197,7 @@ Token* get_token()
 		get_special(&token, &token_string);
 		//the literal type for the token will be a str_lit and the char ptr will point to the token_string array where
 		//the characters are stored
-		token_lit.str_lit = token_string;
+		literal.str_lit = token_string;
 		
 	}
     //3.  Call the appropriate function to deal with the cases in 2.
@@ -293,7 +293,7 @@ static ??? get_string(???)
 static void get_special(Token *token, char *token_string_ptr)
 {
 	char const *symbol_ptr = SYMBOL_STRINGS + 5;
-	int symbol_code;
+	
 	int i;	//counter
 	char check;	
 
@@ -306,7 +306,7 @@ static void get_special(Token *token, char *token_string_ptr)
 			strncat(token_string_ptr, src_ptr, 1);
 			if(check == '=' && *src_ptr == ':')
 			{
-				symbol_code = 21;
+				//symbol_code = 21;
 				src_ptr += 2;
 				strncat(token_string_ptr, check, 1);
 				sprintf(token_string_ptr, "%c", '\0');
@@ -314,7 +314,7 @@ static void get_special(Token *token, char *token_string_ptr)
 			}
 			else if(check == '=' && *src_ptr == '<')
 			{
-				symbol_code = 22;
+				//symbol_code = 22;
 				src_ptr += 2;
 				strncat(token_string_ptr, check, 1);
 				sprintf(token_string_ptr, "%c", '\0');
@@ -322,7 +322,7 @@ static void get_special(Token *token, char *token_string_ptr)
 			}
 			else if(check == '=' && &src_ptr == '>')
 			{
-				symbol_code = 23;
+				//symbol_code = 23;
 				src_ptr += 2;
 				strncat(token_string_ptr, check, 1);
 				sprintf(token_string_ptr, "%c", '\0');
@@ -330,7 +330,7 @@ static void get_special(Token *token, char *token_string_ptr)
 			}
 			else if(check == '>' && *src_ptr == '<')
 			{
-				symbol_code = 24;
+				//symbol_code = 24;
 				src_ptr += 2;
 				strncat(token_string_ptr, check, 1);
 				sprintf(token_string_ptr, "%c", '\0');
@@ -338,7 +338,7 @@ static void get_special(Token *token, char *token_string_ptr)
 			}
 			else if(check == '.' && *src_ptr == '.')
 			{
-				symbol_code = 25;
+				//symbol_code = 25;
 				src_ptr += 2;
 				strncat(token_string_ptr, check, 1);
 				sprintf(token_string_ptr, "%c", '\0');
@@ -347,15 +347,15 @@ static void get_special(Token *token, char *token_string_ptr)
 			else
 			{
 				src_ptr++;
-				symbol_code = i;
+				//symbol_code = i;
 				break;
 			}
 		}
 		symbol_ptr++;
 	}
 	
-	//now set the token code to the symbol code
-	token->code = symbol_code;
+	//now set the token code to STRING so in print it will recognize that str_lit needs to be printed
+	token->code = STRING;
     /*
      Write some code to Extract the special token.  Most are single-character
      some are double-character.  Set the token appropriately.
