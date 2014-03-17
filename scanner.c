@@ -310,44 +310,44 @@ static ??? get_string(???)
 }
 static void get_special(Token *token)
 {
-	char const *symbol_ptr = SYMBOL_STRINGS + 5;
+	
 	int symbol_code;
 	int i;	//counter
 	char check;	
 
-	for(i=5;i<=20;i++)
+	for(i=4;i<=19;i++)
 	{
-		if(strcmp(src_ptr, symbol_ptr) == 0)
+		if(strcmp(src_ptr, SYMBOL_STRINGS[i]) == 0)
 		{
 			check = *(src_ptr + 1);
 			
 			if(check == '=' && *src_ptr == ':')
 			{
-				symbol_code = 21;
+				symbol_code = 20;
 				src_ptr += 2;
 				break;
 			}
 			else if(check == '=' && *src_ptr == '<')
 			{
-				symbol_code = 22;
+				symbol_code = 21;
 				src_ptr += 2;
 				break;
 			}
 			else if(check == '=' && &src_ptr == '>')
 			{
-				symbol_code = 23;
+				symbol_code = 22;
 				src_ptr += 2;
 				break;
 			}
 			else if(check == '>' && *src_ptr == '<')
 			{
-				symbol_code = 24;
+				symbol_code = 23;
 				src_ptr += 2;
 				break;
 			}
 			else if(check == '.' && *src_ptr == '.')
 			{
-				symbol_code = 25;
+				symbol_code = 24;
 				src_ptr += 2;
 				break;
 			}
