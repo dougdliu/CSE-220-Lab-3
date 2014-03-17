@@ -61,7 +61,7 @@ LiteralType;
 typedef struct Token
 {
     LiteralType type;
-    Tokencode code;
+    TokenCode code;
     //What about a Union struct within this to choose based on whether it is an int double or char?
     union Literal {
         int int_lit;
