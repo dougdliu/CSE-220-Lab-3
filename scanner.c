@@ -102,7 +102,7 @@ void init_scanner(FILE *source_file, char source_name[], char date[])
     	}
     }
     // Then rewrite the two execptions, the quotation mark and the period
-    char_table[34] = QUOTE;
+    char_table[39] = QUOTE; // Pascal uses single quotes
     char_table[46] = EOF_CODE;
 }
 BOOLEAN get_source_line(char source_buffer[])
