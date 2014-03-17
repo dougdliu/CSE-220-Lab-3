@@ -42,7 +42,7 @@ void add_token_to_list(Token *list, Token *new_token)
     // Iterates to the last token in the list (by seeing when token->next == NULL), 
     // then sets the next to new_tokwn
     Token* temp;
-    for(temp = list; temp->next =! NULL; temp = temp->next) {}
+    for(temp = list; temp->next != NULL; temp = temp->next) {}
     temp->next = new_token;
 }
 void quit_scanner(FILE *src_file, Token *list)
