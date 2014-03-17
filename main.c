@@ -30,7 +30,9 @@ int main(int argc, const char * argv[])
         add_token_to_list(token_list, token);
         print_token(token);
     }
-    while (token->code == END_OF_FILE);//What is the sentinal value that ends this loop?
+    while (token->code != 19);//What is the sentinal value that ends this loop?
+    //if the token code is special character '.' then it is the end of file
+    //and the symbol_code will be 19
     
     quit_scanner(source_file, token_list);
     return 0;
