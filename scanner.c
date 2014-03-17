@@ -194,10 +194,13 @@ Token* get_token()
 	}
 	else
 	{
+		//in the get_special function the token code will be set
 		get_special(&token, &token_string);
 		//the literal type for the token will be a str_lit and the char ptr will point to the token_string array where
 		//the characters are stored
 		literal.str_lit = token_string;
+		//type of token will be set to string_lit
+		type = STRING_LIT;
 		
 	}
     //3.  Call the appropriate function to deal with the cases in 2.
