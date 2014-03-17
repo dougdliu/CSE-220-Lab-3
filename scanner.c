@@ -129,6 +129,7 @@ Token* get_token()
 	char token_string[MAX_TOKEN_STRING_LENGTH]; //Store your token here as you build it.
 	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
 	int loop = FALSE;
+	int symbol_code;
 	Token* token = (Token*)malloc(sizeof(Token));  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
 	
 	CharCode code;
@@ -210,7 +211,9 @@ Token* get_token()
 	else
 	{
 		//in the get_special function the token code will be set
-		get_special(&token);
+		symbol_code = get_special();
+		//set token code to the symbol code
+		token->code = symbol_code;
 		//the literal type for the token will be a str_lit and the char ptr will point to the token_string array where
 		//the characters are stored
 		token->literal.str_lit = token_string;
@@ -308,7 +311,7 @@ static ??? get_string(???)
      Write some code to Extract the string
      */
 }
-static void get_special(Token *token)
+static int get_special()
 {
 	
 	int symbol_code;
@@ -361,8 +364,8 @@ static void get_special(Token *token)
 		//if no match for loop will continue to loop
 	}//end for loop
 	
-	//now set the token code to symbol_code so in print it will recognize that a special char needs to be printed
-	token->code = symbol_code;
+	//return the symbol code to get_token
+	return symbol_code;
     /*
      Write some code to Extract the special token.  Most are single-character
      some are double-character.  Set the token appropriately.
