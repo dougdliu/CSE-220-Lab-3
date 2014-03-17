@@ -68,7 +68,7 @@ typedef struct Token
         double real_lit;
         char* str_lit;
     } literal;
-    char* identifier;
+    char* word;
     struct Token* next;
 }
 Token;
