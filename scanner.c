@@ -129,7 +129,7 @@ Token* get_token()
 	char token_string[MAX_TOKEN_STRING_LENGTH]; //Store your token here as you build it.
 	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
 	int loop = FALSE;
-	Token token;  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
+	Token* token = (Token*)malloc(sizeof(Token));  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
 	
 	CharCode code;
 
@@ -195,7 +195,7 @@ Token* get_token()
 		//pass in the token_string array to point to, and the current Token struct.
 		//get_word will set the tokens values appropriately so it can be returned
 		//to main
-		get_word(token_string, &token);
+		get_word(token_string, token);
 	}
 	//check to see if it is a digit
 	else if(code == DIGIT)
@@ -205,12 +205,12 @@ Token* get_token()
 	//check to see if it is a quote
 	else if(code == QUOTE)
 	{
-		get_string(ch);
+		get_string(ch, token);
 	}
 	else
 	{
 		//in the get_special function the token code will be set
-		get_special(&token);
+		get_special(token);
 		//the literal type for the token will be a str_lit and the char ptr will point to the token_string array where
 		//the characters are stored
 		literal.str_lit = token_string;
