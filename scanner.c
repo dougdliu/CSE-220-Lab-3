@@ -24,6 +24,21 @@ static ??? get_special(???);
 static void downshift_word(char *dPtr);
 static BOOLEAN is_reserved_word(char const *rPtr);
 
+const char* const SYMBOL_STRINGS[] =
+{
+    "<no token>", "<IDENTIFIER>", "<NUMBER>", "<STRING>",
+    "^","*","(",")","-","+","=","[","]",":",";",
+    "<",">",",",".","/",":=","<=",">=","<>","..",
+    "<END OF FILE>", "<ERROR>",
+    "AND","ARRAY","BEGIN","CASE","CONST","DIV","DO","DOWNTO",
+    "ELSE","END","FILE","FOR","FUNCTION","GOTO","IF","IN",
+    "LABEL","MOD","NIL","NOT","OF","OR","PACKED","PROCEDURE",
+    "PROGRAM","RECORD","REPEAT","SET","THEN","TO","TYPE","UNTIL",
+    "VAR","WHILE","WITH",
+};
+
+
+
 typedef enum
 {
     LETTER, DIGIT, QUOTE, SPECIAL, EOF_CODE,
