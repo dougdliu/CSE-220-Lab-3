@@ -293,10 +293,10 @@ static ??? get_string(???)
      Write some code to Extract the string
      */
 }
-static void get_special(Token *token, char *token_string_ptr)
+static void get_special(Token *token)
 {
 	char const *symbol_ptr = SYMBOL_STRINGS + 5;
-	
+	int symbol_code;
 	int i;	//counter
 	char check;	
 
@@ -305,60 +305,49 @@ static void get_special(Token *token, char *token_string_ptr)
 		if(strcmp(src_ptr, symbol_ptr) == 0)
 		{
 			check = *(src_ptr + 1);
-			//add char to token_string
-			strncat(token_string_ptr, src_ptr, 1);
+			
 			if(check == '=' && *src_ptr == ':')
 			{
-				//symbol_code = 21;
+				symbol_code = 21;
 				src_ptr += 2;
-				strncat(token_string_ptr, check, 1);
-				sprintf(token_string_ptr, "%c", '\0');
 				break;
 			}
 			else if(check == '=' && *src_ptr == '<')
 			{
-				//symbol_code = 22;
+				symbol_code = 22;
 				src_ptr += 2;
-				strncat(token_string_ptr, check, 1);
-				sprintf(token_string_ptr, "%c", '\0');
 				break;
 			}
 			else if(check == '=' && &src_ptr == '>')
 			{
-				//symbol_code = 23;
+				symbol_code = 23;
 				src_ptr += 2;
-				strncat(token_string_ptr, check, 1);
-				sprintf(token_string_ptr, "%c", '\0');
 				break;
 			}
 			else if(check == '>' && *src_ptr == '<')
 			{
-				//symbol_code = 24;
+				symbol_code = 24;
 				src_ptr += 2;
-				strncat(token_string_ptr, check, 1);
-				sprintf(token_string_ptr, "%c", '\0');
 				break;
 			}
 			else if(check == '.' && *src_ptr == '.')
 			{
-				//symbol_code = 25;
+				symbol_code = 25;
 				src_ptr += 2;
-				strncat(token_string_ptr, check, 1);
-				sprintf(token_string_ptr, "%c", '\0');
 				break;
 			}
 			else
 			{
 				src_ptr++;
-				//symbol_code = i;
+				symbol_code = i;
 				break;
 			}
 		}
 		symbol_ptr++;
 	}
 	
-	//now set the token code to STRING so in print it will recognize that str_lit needs to be printed
-	token->code = STRING;
+	//now set the token code to symbol_code so in print it will recognize that a special char needs to be printed
+	token->code = symbol_code;
     /*
      Write some code to Extract the special token.  Most are single-character
      some are double-character.  Set the token appropriately.
