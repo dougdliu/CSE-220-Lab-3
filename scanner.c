@@ -19,7 +19,7 @@ static char skip_comment(char current_ch);
 static void skip_blanks(char *ch_ptr1);
 static ??? get_word(???);
 static ??? get_number(???);
-static ??? get_string(???);
+static void get_string(char* ch, Token* token)
 static ??? get_special(???);
 static void downshift_word(char *dPtr);
 static BOOLEAN is_reserved_word(char const *rPtr);
@@ -196,7 +196,7 @@ Token* get_token()
 		//pass in the token_string array to point to, and the current Token struct.
 		//get_word will set the tokens values appropriately so it can be returned
 		//to main
-		get_word(token_string, &token);
+		get_word(token_string, token);
 	}
 	//check to see if it is a digit
 	else if(code == DIGIT)
@@ -206,7 +206,7 @@ Token* get_token()
 	//check to see if it is a quote
 	else if(code == QUOTE)
 	{
-		get_string(ch);
+		get_string(ch, token);
 	}
 	else
 	{
@@ -305,11 +305,17 @@ static ??? get_number(???)
      Write some code to Extract the number and convert it to a literal number.
      */
 }
-static ??? get_string(???)
+static void get_string(char* ch, Token* token)
 {
-    /*
-     Write some code to Extract the string
-     */
+    int i;
+    char* iterator; // Temp location in string
+    token->type = STRING_LIT; // Change the type of the literal to String
+    for(iterator = ch + 1; iterator != '\''; iterator++) {} // Find the end of the string, used for finding the size
+    token->literal.str_lit = (char*)malloc(iterator - ch); // Allocate memory based on that size
+    for(i = 0; i < (iterator - ch - 1); i++) { // Iterate again through string
+     *(token->literal.str_lit + i) = *(ch + i + 1); // Copy the contents of the string to the literal in the Token
+    }
+    *(token->literal.str_lit + (iterator - ch - 1)) = '\0'; // Add a null terminator
 }
 static int get_special()
 {
