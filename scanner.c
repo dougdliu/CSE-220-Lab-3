@@ -358,8 +358,8 @@ static void get_special(Token *token)
 				break;
 			}
 		}
-		symbol_ptr++;
-	}
+		//if no match for loop will continue to loop
+	}//end for loop
 	
 	//now set the token code to symbol_code so in print it will recognize that a special char needs to be printed
 	token->code = symbol_code;
