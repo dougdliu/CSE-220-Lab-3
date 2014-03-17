@@ -59,10 +59,7 @@ static void print_page_header(char source_name[], char date[])
 void print_token(Token *token)
 {
     // Checks the code of the token against the enum TokenCode, and prints the appropriate one
-    if(token->code == IDENTIFIER) {
-        printf("     >> %17s%s", SYMBOL_STRINGS[token->code], token->identifier);
-    }
-    else if(token->code == NUMBER) {
+    if(token->code == NUMBER) {
         // Decides whether to print an integer or floating point number based on the enum LiteralType
         if(token->type == INTEGER_LIT) {
             printf("     >> %17s%d", SYMBOL_STRINGS[token->code], token->literal.int_lit);
@@ -74,8 +71,10 @@ void print_token(Token *token)
     else if(token->code == STRING) {
         printf("     >> %17s%s", SYMBOL_STRINGS[token->code], token->literal.str_lit);
     }
-    else {
-        printf("     >> %17s%s", SYMBOL_STRINGS[token->code], downshift_word(SYMBOL_STRINGS[token->code]));
+    else if( (token->code > 3) && (token->code < 25) )  { // If the code is a symbol
+        printf("     >> %17s%s", SYMBOL_STRINGS[token->code], SYMBOL_STRINGS[token->code]);
+    }
+    else { // The token code is a keyword or an identifier, which are both stored in token->word
+        printf("     >> %17s%s", SYMBOL_STRINGS[token->code], token->word);
     }
 }
-%s
