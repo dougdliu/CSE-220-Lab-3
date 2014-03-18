@@ -342,7 +342,7 @@ static int get_special()
 				src_ptr += 2;
 				break;
 			}
-			else if(check == '=' && &src_ptr == '>')
+			else if(check == '=' && *src_ptr == '>')
 			{
 				symbol_code = 22;
 				src_ptr += 2;
