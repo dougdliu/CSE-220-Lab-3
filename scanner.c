@@ -15,13 +15,13 @@
  You need to design the proper parameter list and
  return types for functions with ???.
  ******************/
-static ??? get_char(???);
+static void get_char(char* ch_ptr2);
 static char skip_comment(char current_ch);
 static void skip_blanks(char *ch_ptr1);
-static ??? get_word(???);
-static ??? get_number(???);
+static void get_word(char string[], Token* token_ptr);
+static void get_number(char number[], Token* token);
 static void get_string(char* ch, Token* token)
-static ??? get_special(???);
+static int get_special();
 static void downshift_word(char *dPtr);
 static BOOLEAN is_reserved_word(char const *rPtr);
 
