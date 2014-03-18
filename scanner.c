@@ -129,7 +129,7 @@ BOOLEAN get_source_line(char source_buffer[])
 }
 Token* get_token()
 {
-    char ch; //This can be the current character you are examining during scanning.
+        char ch; //This can be the current character you are examining during scanning.
 	char token_string[MAX_TOKEN_STRING_LENGTH]; //Store your token here as you build it.
 	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
 	int loop = FALSE;
@@ -143,7 +143,7 @@ Token* get_token()
 	//otherwise will set ch to what GLOBAL src_ptr is currently looking at.
 	//other methods will set ch to the next char in the source_buffer after they have tokenized
 	ch = *src_ptr;
-	get_char(ch);
+	get_char(&ch);
     //1.  Skip past all of the blanks
 
 
@@ -162,7 +162,7 @@ Token* get_token()
 				//There may be more spaces, need to continue to evaluate
 				loop = TRUE;
 				//call get_char to get a new source line
-				get_char(ch);
+				get_char(&ch);
 			}
 			//if the current char being looked at is not a null terminator, go on
 			//to see if it is a comment. If not a comment we will loop to make sure it's not another space
@@ -179,7 +179,7 @@ Token* get_token()
 
 			//Now call get_char on ch to see what we are looking at (could be another comment or more spaces,
 			//so we cannot end loop yet).
-			get_char(ch);
+			get_char(&ch);
 		}
 		else
 		{
