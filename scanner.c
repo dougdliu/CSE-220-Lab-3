@@ -225,7 +225,7 @@ Token* get_token()
 
    return token; //What should be returned here?
 }
-static ??? get_char(???)
+static void get_char(char* ch_ptr2)
 {
     /*
      If at the end of the current line (how do you check for that?),
@@ -307,8 +307,32 @@ static void get_word(char string[], Token* token_ptr)
 	char word[256];
 	while(string[i] != "\0") //While string hasn't reached EOF of the token string copy string into word
 	{
-		word[i] = string[i];
-		i++;
+		if(string[i] == LETTER) //If it's a letter, it keeps going
+		{
+			word[i] = string[i];
+			i++;
+		}
+		
+		else if(string[i] == DIGIT) //If it's a number, it still keeps going, but it checks if there is a letter first so that it doesn't confuse it with a number
+		{
+			word[i] = string[i];
+			i++;
+		}
+		
+		else if(string[i] == SPECIAL) //If it's a special it ends the loop
+		{
+			break;
+		}
+		
+		else if(string[i] == " ") //If it's a blank space, it breaks the loop
+		{
+			break;
+		}
+		
+		else if(string[i] == QUOTE) //If it's a quote, it also breaks the loop
+		{
+			break;
+		}
 	}
     //Downshift the word, to make it lower case
 	downshift_word(word); //This downshifts the word
