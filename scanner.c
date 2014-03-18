@@ -334,48 +334,42 @@ static int get_special()
 			{
 				symbol_code = 20;
 				src_ptr += 2;
-				break;
+				return symbol_code;
 			}
 			else if(check == '=' && *src_ptr == '<')
 			{
 				symbol_code = 21;
 				src_ptr += 2;
-				break;
+				return symbol_code;
 			}
 			else if(check == '=' && *src_ptr == '>')
 			{
 				symbol_code = 22;
 				src_ptr += 2;
-				break;
+				return symbol_code;
 			}
 			else if(check == '>' && *src_ptr == '<')
 			{
 				symbol_code = 23;
 				src_ptr += 2;
-				break;
+				return symbol_code;
 			}
 			else if(check == '.' && *src_ptr == '.')
 			{
 				symbol_code = 24;
 				src_ptr += 2;
-				break;
+				return symbol_code;
 			}
 			else
 			{
 				src_ptr++;
 				symbol_code = i;
-				break;
+				return symbol_code;
 			}
 		}
 		//if no match for loop will continue to loop
 	}//end for loop
-	
-	//return the symbol code to get_token
-	return symbol_code;
-    /*
-     Write some code to Extract the special token.  Most are single-character
-     some are double-character.  Set the token appropriately.
-     */
+
 }
 static void downshift_word(char *dPtr)
 {
