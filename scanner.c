@@ -210,7 +210,7 @@ Token* get_token()
 	//check to see if it is a quote
 	else if(code == QUOTE)
 	{
-		get_string(ch, token);
+		get_string(&ch, token);
 	}
 	else
 	{
@@ -238,7 +238,7 @@ static void get_char(char* ch_ptr2)
      */
 
 	if (*ch_ptr2 == "\0"){
-		get_source_line(*ch_ptr2);
+		get_source_line(ch_ptr2);
 	}
 
 	else if(*ch_ptr2 == EOF_CODE){
@@ -282,7 +282,7 @@ static char skip_comment(char current_ch)
 		//if current_ch
 		if(current_ch == '\0')
 		{
-			get_char(current_ch);
+			get_char(&current_ch);
 		}
 		else
 		{
@@ -478,10 +478,10 @@ static BOOLEAN is_reserved_word(char const *rPtr)
     /*
      Examine the reserved word table and determine if the function input is a reserved word.
      */
-	
-	for(int i = 0; i <= 9; i++)
+	int i, j; // counters for for loops
+	for(i = 0; i <= 9; i++)
 	{
-		for(int j = 0; j <= 10; j++)
+		for(j = 0; j <= 10; j++)
 		{
 			
 			//compare the string pointed to be *rPtr to reserved words in rw_table
