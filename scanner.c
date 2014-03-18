@@ -346,7 +346,7 @@ static void get_word(char string[], Token* token)
      if it is not a reserved word its an identifier.
      */
 	if((is_reserved_word(word)) == FALSE){ //checks to see if the condition is false
-		token->word = *word; //assigns the token to be an identifier.
+		token->word = word; //assigns the token to be an identifier.
 	}
 }
 static void get_number(char number[], Token* token)
@@ -354,6 +354,7 @@ static void get_number(char number[], Token* token)
     /*
      Write some code to Extract the number and convert it to a literal number.
      */
+     // Maybe we would use the functions atoi() and atof()?
 	size_t i, j;
 	char digit[MAX_TOKEN_STRING_LENGTH];
 	while(number[i] != '\0') //This creates the character array for the number
