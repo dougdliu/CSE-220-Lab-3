@@ -419,7 +419,7 @@ static BOOLEAN is_reserved_word(char const *rPtr)
 			
 			//compare the string pointed to be *rPtr to reserved words in rw_table
 			//if match is found return true
-			if(strcmp(rPtr, rw_table[i][j]->string) == 0)
+			if(strcmp(rPtr, rw_table[i][j].string) == 0)
 			{
 				return TRUE;
 			}
