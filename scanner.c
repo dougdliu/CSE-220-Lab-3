@@ -15,15 +15,17 @@
  You need to design the proper parameter list and
  return types for functions with ???.
  ******************/
-static void get_char(char* ch_ptr2);
-static char skip_comment(char current_ch);
+
+static void get_char(char *ch_ptr2);
+static char skip_comment(char current_ch );
 static void skip_blanks(char *ch_ptr1);
-static void get_word(char string[], Token* token_ptr);
-static void get_number(char number[], Token* token);
-static void get_string(char* ch, Token* token)
+static void get_word(char string[], Token* token );
+static void get_number(char number[], Token* token );
+static void get_string(char* ch, Token* token );
 static int get_special();
 static void downshift_word(char *dPtr);
 static BOOLEAN is_reserved_word(char const *rPtr);
+
 
 const char* const SYMBOL_STRINGS[] =
 {
@@ -131,7 +133,7 @@ Token* get_token()
 	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
 	int loop = FALSE;
 	int symbol_code;
-	Token* token = (Token*)malloc(sizeof(Token));  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
+	Token* token = malloc(sizeof(Token));  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
 	
 	CharCode code;
 
@@ -249,6 +251,7 @@ static void get_char(char* ch_ptr2)
 	else{
 		ch_ptr2++;
 		*src_ptr = *ch_ptr2;
+	}
 }
 static void skip_blanks(char *ch_ptr1)
 {
