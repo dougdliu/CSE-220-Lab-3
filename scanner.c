@@ -233,9 +233,21 @@ static ??? get_char(???)
      set the character ch to EOF and leave the function.
      */
 
+	if (*ch_ptr2 == "\0"){
+		get_source_line(*ch_ptr2);
+	}
+
+	else if(*ch_ptr2 == EOF_CODE){
+		*src_ptr = EOF_CODE;
+
+	}
+
     /*
      Write some code to set the character ch to the next character in the buffer
      */
+	else{
+		ch_ptr2++;
+		*src_ptr = *ch_ptr2;
 }
 static void skip_blanks(char *ch_ptr1)
 {
@@ -286,18 +298,27 @@ static char skip_comment(char current_ch)
      to the first non blank character.  Watch out for the EOF character.
      */
 }
-static ??? get_word(???)
+static void get_word(char string[], Token* token_ptr)
 {
     /*
      Write some code to Extract the word
      */
-
+	size_t i = 0;
+	char word[256];
+	while(string[i] != "\0") //While string hasn't reached EOF of the token string copy string into word
+	{
+		word[i] = string[i];
+		i++;
+	}
     //Downshift the word, to make it lower case
-
+	downshift_word(word); //This downshifts the word
     /*
      Write some code to Check if the word is a reserved word.
      if it is not a reserved word its an identifier.
      */
+	if((is_reserved_word(word)) == FALSE){ //checks to see if the condition is false
+		token->identifier = *word; //assigns the token to be an identifier.
+	}
 }
 static ??? get_number(???)
 {
