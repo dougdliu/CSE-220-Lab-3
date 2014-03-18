@@ -305,7 +305,7 @@ static void get_word(char string[], Token* token_ptr)
      Write some code to Extract the word
      */
 	size_t i = 0;
-	char word[256];
+	char word[MAX_TOKEN_STRING_LENGTH];
 	while(string[i] != "\0") //While string hasn't reached EOF of the token string copy string into word
 	{
 		if(string[i] == LETTER) //If it's a letter, it keeps going
@@ -342,7 +342,7 @@ static void get_word(char string[], Token* token_ptr)
      if it is not a reserved word its an identifier.
      */
 	if((is_reserved_word(word)) == FALSE){ //checks to see if the condition is false
-		token->identifier = *word; //assigns the token to be an identifier.
+		token->word = *word; //assigns the token to be an identifier.
 	}
 }
 static ??? get_number(???)
