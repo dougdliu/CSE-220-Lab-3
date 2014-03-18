@@ -357,7 +357,7 @@ static void get_string(char* ch, Token* token)
     int i;
     char* iterator; // Temp location in string
     token->type = STRING_LIT; // Change the type of the literal to String
-    for(iterator = ch + 1; iterator != '\''; iterator++) {} // Find the end of the string, used for finding the size
+    for(iterator = ch + 1; *iterator != '\'' && *(iterator - 1) != '\\'; iterator++) {} // Find the end of the string, used for finding the size. Skip over escape characters
     token->literal.str_lit = (char*)malloc(iterator - ch); // Allocate memory based on that size
     for(i = 0; i < (iterator - ch - 1); i++) { // Iterate again through string
      *(token->literal.str_lit + i) = *(ch + i + 1); // Copy the contents of the string to the literal in the Token
