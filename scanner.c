@@ -237,7 +237,7 @@ static void get_char(char* ch_ptr2)
      set the character ch to EOF and leave the function.
      */
 
-	if (*ch_ptr2 == '\0''){
+	if (*ch_ptr2 == '\0'){
 		get_source_line(ch_ptr2);
 	}
 
@@ -303,7 +303,7 @@ static char skip_comment(char current_ch)
      to the first non blank character.  Watch out for the EOF character.
      */
 }
-static void get_word(char string[], Token* token_ptr)
+static void get_word(char string[], Token* token)
 {
     /*
      Write some code to Extract the word
