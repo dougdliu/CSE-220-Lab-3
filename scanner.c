@@ -202,7 +202,7 @@ Token* get_token()
 	//check to see if it is a digit
 	else if(code == DIGIT)
 	{
-		 get_number(ch);
+		get_number(token_string, token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
 	}
 	//check to see if it is a quote
 	else if(code == QUOTE)
