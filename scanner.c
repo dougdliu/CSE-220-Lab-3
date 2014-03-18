@@ -345,11 +345,49 @@ static void get_word(char string[], Token* token_ptr)
 		token->word = *word; //assigns the token to be an identifier.
 	}
 }
-static ??? get_number(???)
+static void get_number(char number[], Token* token)
 {
     /*
      Write some code to Extract the number and convert it to a literal number.
      */
+	size_t i, j;
+	char digit[MAX_TOKEN_STRING_LENGTH];
+	while(number[i] != "\0") //This creates the character array for the number
+	{
+		if(number[i] == DIGIT) //If it's a digit, it keeps going
+		{
+			digit[i] = number[i];
+			i++;
+		}
+
+		else if(number[i] == "e" || number[i] == ".") //If it's e or . it will keep going as well.
+		{
+			digit[i] = number[i];
+			i++;
+		}
+
+		else if(number[i] == SPECIAL) //Anything else would break the loop
+		{
+			break;
+		}
+
+	}
+
+	for(j = 0; j < 256; j++) //This scans the new char array for e or . and if it does the char array gets sent to a real number
+	{
+		if(digit[j] == "e" || digit[j] == ".") //If the character array contain e, it will assign digit to real_lit
+		{
+			token->literal.real_lit = digit;
+		}
+		else if(digit[j] == NULL) //stops the scanner when it gets to the end of actual data.
+		{
+			break;
+		}
+		else //Otherwise the digit array would be in int_lit
+		{
+			token->literal.int_lit = digit; 
+		}
+	}
 }
 static void get_string(char* ch, Token* token)
 {
