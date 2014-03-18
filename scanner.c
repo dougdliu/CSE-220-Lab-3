@@ -328,6 +328,7 @@ static ??? get_number(???)
 }
 static void get_string(char* ch, Token* token)
 {
+	// would this function need to have Token **token as the argument since it is receiving a pointer?
     int i;
     char* iterator; // Temp location in string
     token->type = STRING_LIT; // Change the type of the literal to String
