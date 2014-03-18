@@ -237,7 +237,7 @@ static void get_char(char* ch_ptr2)
      set the character ch to EOF and leave the function.
      */
 
-	if (*ch_ptr2 == "\0"){
+	if (*ch_ptr2 == '\0''){
 		get_source_line(ch_ptr2);
 	}
 
@@ -310,7 +310,7 @@ static void get_word(char string[], Token* token_ptr)
      */
 	size_t i = 0;
 	char word[MAX_TOKEN_STRING_LENGTH];
-	while(string[i] != "\0") //While string hasn't reached EOF of the token string copy string into word
+	while(string[i] != '\0') //While string hasn't reached EOF of the token string copy string into word
 	{
 		if(string[i] == LETTER) //If it's a letter, it keeps going
 		{
@@ -329,7 +329,7 @@ static void get_word(char string[], Token* token_ptr)
 			break;
 		}
 		
-		else if(string[i] == " ") //If it's a blank space, it breaks the loop
+		else if(string[i] == ' ') //If it's a blank space, it breaks the loop
 		{
 			break;
 		}
@@ -356,7 +356,7 @@ static void get_number(char number[], Token* token)
      */
 	size_t i, j;
 	char digit[MAX_TOKEN_STRING_LENGTH];
-	while(number[i] != "\0") //This creates the character array for the number
+	while(number[i] != '\0') //This creates the character array for the number
 	{
 		if(number[i] == DIGIT) //If it's a digit, it keeps going
 		{
@@ -364,7 +364,7 @@ static void get_number(char number[], Token* token)
 			i++;
 		}
 
-		else if(number[i] == "e" || number[i] == ".") //If it's e or . it will keep going as well.
+		else if(number[i] == 'e' || number[i] == '.') //If it's e or . it will keep going as well.
 		{
 			digit[i] = number[i];
 			i++;
@@ -379,7 +379,7 @@ static void get_number(char number[], Token* token)
 
 	for(j = 0; j < 256; j++) //This scans the new char array for e or . and if it does the char array gets sent to a real number
 	{
-		if(digit[j] == "e" || digit[j] == ".") //If the character array contain e, it will assign digit to real_lit
+		if(digit[j] == 'e' || digit[j] == '.') //If the character array contain e, it will assign digit to real_lit
 		{
 			token->literal.real_lit = digit;
 		}
