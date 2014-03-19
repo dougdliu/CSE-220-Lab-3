@@ -19,7 +19,7 @@ void add_token_to_list(Token *list, Token *new_token);
 int main(int argc, const char * argv[])
 {
     Token *token;
-    Token *token_list; //This needs to be implemented as a linked list in scanner.h.
+    Token *token_list = (Token*)malloc(sizeof(Token*)); //This needs to be implemented as a linked list in scanner.h.
     char source_name[MAX_FILE_NAME_LENGTH];
     char date[DATE_STRING_LENGTH];
     FILE *source_file = init_lister(argv[1], source_name, date);
@@ -45,8 +45,13 @@ void add_token_to_list(Token *list, Token *new_token)
     // Iterates to the last token in the list (by seeing when token->next == NULL), 
     // then sets the next to new_tokwn
     Token* temp;
-    for(temp = list; temp->next != NULL; temp = temp->next) {}
-    temp->next = new_token;
+    if(list == NULL) { // Prime the list
+		*list = *new_token;
+	}
+	else {
+        for(temp = list; temp->next != NULL; temp = temp->next) {}
+        temp->next = new_token;
+	}
 }
 void quit_scanner(FILE *src_file, Token *list)
 {
