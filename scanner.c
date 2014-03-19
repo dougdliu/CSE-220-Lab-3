@@ -170,7 +170,6 @@ Token* get_token()
 		//now check to see if there is a comment and skip over this as well
 		if(ch == '{')
 		{
-
 			loop = TRUE;
 			//skip_comment will return the character following the ending bracket
 			//src_ptr will also be pointing here
@@ -396,16 +395,18 @@ static void get_number(char number[], Token* token)
 }
 static void get_string(char* ch, Token* token)
 {
-	// would this function need to have Token **token as the argument since it is receiving a pointer?
+    // would this function need to have Token **token as the argument since it is receiving a pointer?
     int i;
     char* iterator; // Temp location in string
     token->type = STRING_LIT; // Change the type of the literal to String
     for(iterator = ch + 1; *iterator != '\'' && *(iterator - 1) != '\\'; iterator++) {} // Find the end of the string, used for finding the size. Skip over escape characters
     token->literal.str_lit = (char*)malloc(iterator - ch); // Allocate memory based on that size
     for(i = 0; i < (iterator - ch - 1); i++) { // Iterate again through string
-     *(token->literal.str_lit + i) = *(ch + i + 1); // Copy the contents of the string to the literal in the Token
+        *(token->literal.str_lit + i) = *(ch + i + 1); // Copy the contents of the string to the literal in the Token
     }
     *(token->literal.str_lit + (iterator - ch - 1)) = '\0'; // Add a null terminator
+    src_ptr = iterator + 1; // Adjust the global pointer to after the string
+    *ch = *(iterator + 1); // Set ch to the char after the string ends
 }
 static int get_special()
 {
