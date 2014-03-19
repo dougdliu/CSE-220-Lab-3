@@ -21,7 +21,7 @@ static void get_char(char *ch_ptr2);
 static char skip_comment(char current_ch );
 static void skip_blanks(char *ch_ptr1);
 static void get_word(char string[], Token* token );
-static void get_number(char* ch, Token* token) {
+static void get_number(char* ch, Token* token);
 static void get_string(char* ch, Token* token );
 static int get_special();
 static void downshift_word(char *dPtr);
