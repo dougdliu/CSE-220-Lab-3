@@ -199,7 +199,7 @@ Token* get_token()
 		//pass in the token_string array to point to, and the current Token struct.
 		//get_word will set the tokens values appropriately so it can be returned
 		//to main
-		get_word(token_string, token);
+		get_word( token);
 	}
 	//check to see if it is a digit
 	else if(code == DIGIT)
