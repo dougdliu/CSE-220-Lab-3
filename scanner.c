@@ -134,7 +134,7 @@ Token* get_token()
 	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
 	int loop = FALSE;
 	int symbol_code;
-	Token* token = malloc(sizeof(Token));  //I am missing the most important variable in the function, what is it?  Hint: what should I return?
+	Token* token = (Token*)malloc(sizeof(Token)); //allocate memory for struct
 	
 	CharCode code;
 
