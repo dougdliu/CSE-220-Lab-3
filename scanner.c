@@ -355,10 +355,10 @@ static void get_number(char* ch, Token* token) {
 	for(end = ch; char_table[*end] == DIGIT || *end == 'e' || *end == '.'; end++) {} // Find the end of the number so we know the size
 	temp = (char*)malloc(end - ch); // Allocate memory to the temp based on that size
 	for(i = 0; i <= (end - ch); i++) { // For the whole number
-        *(temp + i) = *(ch + i); // Copy the number into the temp
+        	*(temp + i) = *(ch + i); // Copy the number into the temp
 
-		if(*end == 'e' || *end == '.') { // If there's an 'e', or '.', we change the type to float
-		    token->type = REAL_LIT; // Make the type a float
+		if(*(temp + i) == 'e' || *(temp + i) == '.') { // If there's an 'e', or '.', we change the type to float
+			token->type = REAL_LIT; // Make the type a float
 		}
 	}
 	if(token->type == INTEGER_LIT) { // If it's an integer
