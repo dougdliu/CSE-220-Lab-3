@@ -329,18 +329,15 @@ static int get_word(Token* token )
 
     //Downshift the word, to make it lower case
 	downshift_word(built_word); //This downshifts the word
-	printf("%s\n", built_word);
+	
     /*
      Write some code to Check if the word is a reserved word.
      if it is not a reserved word its an identifier.
      */
-	if((is_reserved_word(built_word, token)) == FALSE){ //checks to see if the condition is false
+	if((is_reserved_word(built_word, token)) == FALSE)//checks to see if the condition is false
+	{
 		token->word = built_word; //assigns the token to be an identifier.
 		token->code = IDENTIFIER;
-	}
-	else
-	{
-		puts("it is a reserved word!");
 	}
 	return 0;
 }
