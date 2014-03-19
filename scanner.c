@@ -235,8 +235,9 @@ static void get_char(char* ch_ptr2)
      we should call get source line.  If at the EOF (end of file) we should
      set the character ch to EOF and leave the function.
      */
+	//source_buffer to fill by get_source_line
 	char source_buffer[MAX_SOURCE_LINE_LENGTH];	
-	
+		
 	if (*ch_ptr2 == '\0' || ch_ptr2 == NULL )
 	{
 		//need to pass array to get_source_line to fill
