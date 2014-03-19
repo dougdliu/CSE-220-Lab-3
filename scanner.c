@@ -28,7 +28,7 @@ static void downshift_word(char *dPtr);
 static BOOLEAN is_reserved_word(char const *rPtr);
 
 
-const char* const SYMBOL_STRINGS[] =
+const char* const SYMBOL_STRINGS2[] =
 {
     "<no token>", "<IDENTIFIER>", "<NUMBER>", "<STRING>",
     "^","*","(",")","-","+","=","[","]",":",";",
@@ -395,7 +395,7 @@ static int get_special()
 
 	for(i=4;i<=19;i++)
 	{
-		if(strcmp(src_ptr, SYMBOL_STRINGS[i]) == 0)
+		if(strcmp(src_ptr, SYMBOL_STRINGS2[i]) == 0)
 		{
 			check = *(src_ptr + 1);
 			
