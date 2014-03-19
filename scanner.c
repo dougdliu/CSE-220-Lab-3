@@ -21,7 +21,7 @@ static void get_char(char *ch_ptr2);
 static char skip_comment(char current_ch );
 static void skip_blanks(char *ch_ptr1);
 static void get_word(char string[], Token* token );
-static void get_number(char number[], Token* token );
+static void get_number(char* ch, Token* token) {
 static void get_string(char* ch, Token* token );
 static int get_special();
 static void downshift_word(char *dPtr);
@@ -204,7 +204,7 @@ Token* get_token()
 	//check to see if it is a digit
 	else if(code == DIGIT)
 	{
-		get_number(token_string, token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
+		get_number(&ch, token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
 	}
 	//check to see if it is a quote
 	else if(code == QUOTE)
@@ -349,19 +349,27 @@ static void get_word(char string[], Token* token)
 	}
 }
 static void get_number(char* ch, Token* token) {
-	char* end;
+	int i;
+	char *end, *temp;
 	token->type = INTEGER_LIT; // Assume it's an integer for now
-	for(end = ch; char_table[*end] == DIGIT || *end == 'e' || *end == '.'; end++) { // 
-	    if(*end == 'e' || *end == '.') { // If there's an 'e', or '.', it's a float
+	for(end = ch; char_table[*end] == DIGIT || *end == 'e' || *end == '.'; end++) {} // Find the end of the number so we know the size
+	temp = (char*)malloc(end - ch); // Allocate memory to the temp based on that size
+	for(i = 0; i <= (end - ch); i++) { // For the whole number
+        *(temp + i) = *(ch + i); // Copy the number into the temp
+
+		if(*end == 'e' || *end == '.') { // If there's an 'e', or '.', we change the type to float
 		    token->type = REAL_LIT; // Make the type a float
 		}
 	}
-	if(token->type == INTEGER_LIT) {
-		token->literal.int_lit = atoi(); // Needs to get string with null terminator after number, working on it. atoi() parses a string and returns a number
+	if(token->type == INTEGER_LIT) { // If it's an integer
+		token->literal.int_lit = atoi(temp); // Parse the string into an integer. atoi() takes a string and returns an integer
 	}
-	else if(token->type == INTEGER_LIT) {
-		token->literal.int_lit = atof(); // atof() parses a string and returns a double
+	else if(token->type == INTEGER_LIT) { // If it's a floating point number
+		token->literal.real_lit = atof(temp); // Parse the string into an double. atoi() takes a string and returns an double
 	}
+	src_ptr = end + 1; // Adjust the global pointer to after the string
+	*ch = *(end + 1); // Set ch to the char after the string ends
+	free(temp); // BE FREE
 }
 static void get_string(char* ch, Token* token)
 {
