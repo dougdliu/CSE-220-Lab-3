@@ -129,7 +129,7 @@ BOOLEAN get_source_line(char source_buffer[])
 }
 Token* get_token()
 {
-        char ch; //This can be the current character you are examining during scanning.
+        static char ch = '\0' ; //This can be the current character you are examining during scanning.
 	char token_string[MAX_TOKEN_STRING_LENGTH]; //Store your token here as you build it.
 	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
 	int loop = FALSE;
@@ -142,7 +142,7 @@ Token* get_token()
 	//get_char will also set ch to the first character in source_buffer, if the end of line has been reached,
 	//otherwise will set ch to what GLOBAL src_ptr is currently looking at.
 	//other methods will set ch to the next char in the source_buffer after they have tokenized
-	ch = *src_ptr;
+	
 	get_char(&ch);
     //1.  Skip past all of the blanks
 
