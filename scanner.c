@@ -20,12 +20,12 @@
 static void get_char(char *ch_ptr2);
 static char skip_comment(char current_ch );
 static void skip_blanks(char *ch_ptr1);
-static void get_word(char string[], Token* token );
+static int get_word(Token* token );
 static void get_number(char* ch, Token* token);
 static void get_string(char* ch, Token* token );
 static int get_special();
 static void downshift_word(char *dPtr);
-static BOOLEAN is_reserved_word(char const *rPtr);
+static BOOLEAN is_reserved_word(char const *rPtr, Token* token);
 
 
 const char* const SYMBOL_STRINGS2[] =
@@ -135,14 +135,14 @@ Token* get_token()
 	int loop = FALSE;
 	int symbol_code;
 	Token* token = (Token*)malloc(sizeof(Token)); //allocate memory for struct
-	
+
 	CharCode code;
 
 	//get_char will set global ptr src_ptr to the source_buffer line
 	//get_char will also set ch to the first character in source_buffer, if the end of line has been reached,
 	//otherwise will set ch to what GLOBAL src_ptr is currently looking at.
 	//other methods will set ch to the next char in the source_buffer after they have tokenized
-	
+
 	get_char(&ch);
     //1.  Skip past all of the blanks
 
@@ -222,7 +222,7 @@ Token* get_token()
 		token->literal.str_lit = token_string;
 		//type of token will be set to string_lit
 		token->type = STRING_LIT;
-		
+
 	}
     //3.  Call the appropriate function to deal with the cases in 2.
 
@@ -236,8 +236,8 @@ static void get_char(char* ch_ptr2)
      set the character ch to EOF and leave the function.
      */
 	//source_buffer to fill by get_source_line
-	char source_buffer[MAX_SOURCE_LINE_LENGTH];	
-		
+	char source_buffer[MAX_SOURCE_LINE_LENGTH];
+
 	if (*ch_ptr2 == '\0' || ch_ptr2 == NULL )
 	{
 		//need to pass array to get_source_line to fill
@@ -266,7 +266,7 @@ static void skip_blanks(char *ch_ptr1)
 	while(*src_ptr == ' ' && *src_ptr != '\0')
 	{
 		src_ptr++;
-		
+
 	}
 	//after iterating through spaces and finding null terminator or a character,
 	//set ch to what src_ptr is now pointing at
@@ -302,51 +302,47 @@ static char skip_comment(char current_ch)
      to the first non blank character.  Watch out for the EOF character.
      */
 }
-static void get_word(char string[], Token* token)
+static int get_word(Token* token )
 {
     /*
      Write some code to Extract the word
      */
-	size_t i = 0;
-	char word[MAX_TOKEN_STRING_LENGTH];
-	while(string[i] != '\0') //While string hasn't reached EOF of the token string copy string into word
+	int i;
+	CharCode code;
+	char ch = *src_ptr;
+	char built_word[MAX_SOURCE_LINE_LENGTH];
+
+	code = char_table[ch];
+
+	for(i = 0; (code == LETTER || code == DIGIT); i++)
 	{
-		if(string[i] == LETTER) //If it's a letter, it keeps going
-		{
-			word[i] = string[i];
-			i++;
-		}
-		
-		else if(string[i] == DIGIT) //If it's a number, it still keeps going, but it checks if there is a letter first so that it doesn't confuse it with a number
-		{
-			word[i] = string[i];
-			i++;
-		}
-		
-		else if(string[i] == SPECIAL) //If it's a special it ends the loop
-		{
-			break;
-		}
-		
-		else if(string[i] == ' ') //If it's a blank space, it breaks the loop
-		{
-			break;
-		}
-		
-		else if(string[i] == QUOTE) //If it's a quote, it also breaks the loop
-		{
-			break;
-		}
+
+		built_word[i] = *src_ptr;
+		src_ptr++;
+		code = char_table[(*src_ptr)];
+
 	}
+	built_word[i+1] = '\0';
+
+
+
+
     //Downshift the word, to make it lower case
-	downshift_word(word); //This downshifts the word
+	downshift_word(built_word); //This downshifts the word
+	printf("%s\n", built_word);
     /*
      Write some code to Check if the word is a reserved word.
      if it is not a reserved word its an identifier.
      */
-	if((is_reserved_word(word)) == FALSE){ //checks to see if the condition is false
-		token->word = word; //assigns the token to be an identifier.
+	if((is_reserved_word(built_word, token)) == FALSE){ //checks to see if the condition is false
+		token->word = built_word; //assigns the token to be an identifier.
+		token->code = IDENTIFIER;
 	}
+	else
+	{
+		puts("it is a reserved word!");
+	}
+	return 0;
 }
 static void get_number(char* ch, Token* token) {
 	int i;
@@ -388,42 +384,52 @@ static void get_string(char* ch, Token* token)
 }
 static int get_special()
 {
-	
+
 	int symbol_code;
 	int i;	//counter
-	char check;	
+	char check;
+	char current_char = *src_ptr;
+	char storage[1];
+	char *ptr = storage;
+
+	storage[0] = *src_ptr;
+	storage[1] = '\0';
 
 	for(i=4;i<=19;i++)
 	{
-		if(strcmp(src_ptr, SYMBOL_STRINGS2[i]) == 0)
+		//printf("%s\n", ptr);
+		if(strcmp(ptr, SYMBOL_STRINGS2[i]) == 0)
 		{
 			check = *(src_ptr + 1);
-			
-			if(check == '=' && *src_ptr == ':')
+
+			//printf("%c\n", current_char);
+			//printf("%c\n", *src_ptr);
+			if(check == '=' && current_char == ':')
 			{
 				symbol_code = 20;
 				src_ptr += 2;
 				return symbol_code;
 			}
-			else if(check == '=' && *src_ptr == '<')
+			else if(check == '=' && current_char == '<')
 			{
 				symbol_code = 21;
 				src_ptr += 2;
 				return symbol_code;
 			}
-			else if(check == '=' && *src_ptr == '>')
+			else if(check == '=' && current_char == '>')
 			{
 				symbol_code = 22;
 				src_ptr += 2;
 				return symbol_code;
 			}
-			else if(check == '>' && *src_ptr == '<')
+			else if(check == '>' && current_char == '<')
 			{
+				puts("gets to here");
 				symbol_code = 23;
 				src_ptr += 2;
 				return symbol_code;
 			}
-			else if(check == '.' && *src_ptr == '.')
+			else if(check == '.' && current_char == '.')
 			{
 				symbol_code = 24;
 				src_ptr += 2;
@@ -453,7 +459,7 @@ static void downshift_word(char *dPtr)
 		dPtr++; //increment pointer to look at next character
 	}
 }
-static BOOLEAN is_reserved_word(char const *rPtr)
+static BOOLEAN is_reserved_word(char const *rPtr, Token* token )
 {
     /*
      Examine the reserved word table and determine if the function input is a reserved word.
@@ -463,11 +469,12 @@ static BOOLEAN is_reserved_word(char const *rPtr)
 	{
 		for(j = 0; j <= 10; j++)
 		{
-			
+
 			//compare the string pointed to be *rPtr to reserved words in rw_table
 			//if match is found return true
 			if(strcmp(rPtr, rw_table[i][j].string) == 0)
 			{
+				token->code = rw_table[i][j].token_code;
 				return TRUE;
 			}
 		}
