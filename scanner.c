@@ -235,22 +235,21 @@ static void get_char(char* ch_ptr2)
      we should call get source line.  If at the EOF (end of file) we should
      set the character ch to EOF and leave the function.
      */
-
-	if (*ch_ptr2 == '\0'){
-		get_source_line(ch_ptr2);
+	char source_buffer[MAX_SOURCE_LINE_LENGTH];	
+	
+	if (*ch_ptr2 == '\0' || ch_ptr2 == NULL )
+	{
+		//need to pass array to get_source_line to fill
+		get_source_line(source_buffer);
+		//make src_ptr point to newly filled array from get_source_line
+		src_ptr = source_buffer;
+		//set ch to the first character of the new line
+		*ch_ptr2 = source_buffer[0];
 	}
-
-	else if(*ch_ptr2 == EOF_CODE){
-		*src_ptr = EOF_CODE;
-
-	}
-
-    /*
-     Write some code to set the character ch to the next character in the buffer
-     */
-	else{
-		ch_ptr2++;
-		*src_ptr = *ch_ptr2;
+	else
+	{
+		//otherwise ch will just be set to what src_ptr is currently at
+		*ch_ptr2 = *src_ptr;
 	}
 }
 static void skip_blanks(char *ch_ptr1)
