@@ -21,7 +21,7 @@ static void get_char(char *ch_ptr2);
 static char skip_comment(char current_ch );
 static void skip_blanks(char *ch_ptr1);
 static void get_word(char string[], Token* token );
-static void get_number(char number[], Token* token );
+static void get_number(char* ch, Token* token) {
 static void get_string(char* ch, Token* token );
 static int get_special();
 static void downshift_word(char *dPtr);
@@ -204,7 +204,7 @@ Token* get_token()
 	//check to see if it is a digit
 	else if(code == DIGIT)
 	{
-		get_number(token_string, token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
+		get_number(&ch, token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
 	}
 	//check to see if it is a quote
 	else if(code == QUOTE)
@@ -347,50 +347,28 @@ static void get_word(char string[], Token* token)
 		token->word = word; //assigns the token to be an identifier.
 	}
 }
-static void get_number(char number[], Token* token)
-{
-    /*
-     Write some code to Extract the number and convert it to a literal number.
-     */
-     // Maybe we would use the functions atoi() and atof()?
-	size_t i, j;
-	char digit[MAX_TOKEN_STRING_LENGTH];
-	while(number[i] != '\0') //This creates the character array for the number
-	{
-		if(number[i] == DIGIT) //If it's a digit, it keeps going
-		{
-			digit[i] = number[i];
-			i++;
-		}
+static void get_number(char* ch, Token* token) {
+	int i;
+	char *end, *temp;
+	token->type = INTEGER_LIT; // Assume it's an integer for now
+	for(end = ch; char_table[*end] == DIGIT || *end == 'e' || *end == '.'; end++) {} // Find the end of the number so we know the size
+	temp = (char*)malloc(end - ch); // Allocate memory to the temp based on that size
+	for(i = 0; i <= (end - ch); i++) { // For the whole number
+        *(temp + i) = *(ch + i); // Copy the number into the temp
 
-		else if(number[i] == 'e' || number[i] == '.') //If it's e or . it will keep going as well.
-		{
-			digit[i] = number[i];
-			i++;
-		}
-
-		else if(number[i] == SPECIAL) //Anything else would break the loop
-		{
-			break;
-		}
-
-	}
-
-	for(j = 0; j < 256; j++) //This scans the new char array for e or . and if it does the char array gets sent to a real number
-	{
-		if(digit[j] == 'e' || digit[j] == '.') //If the character array contain e, it will assign digit to real_lit
-		{
-			token->literal.real_lit = digit;
-		}
-		else if(digit[j] == NULL) //stops the scanner when it gets to the end of actual data.
-		{
-			break;
-		}
-		else //Otherwise the digit array would be in int_lit
-		{
-			token->literal.int_lit = digit; 
+		if(*end == 'e' || *end == '.') { // If there's an 'e', or '.', we change the type to float
+		    token->type = REAL_LIT; // Make the type a float
 		}
 	}
+	if(token->type == INTEGER_LIT) { // If it's an integer
+		token->literal.int_lit = atoi(temp); // Parse the string into an integer. atoi() takes a string and returns an integer
+	}
+	else if(token->type == INTEGER_LIT) { // If it's a floating point number
+		token->literal.real_lit = atof(temp); // Parse the string into an double. atoi() takes a string and returns an double
+	}
+	src_ptr = end + 1; // Adjust the global pointer to after the string
+	*ch = *(end + 1); // Set ch to the char after the string ends
+	free(temp); // BE FREE
 }
 static void get_string(char* ch, Token* token)
 {
