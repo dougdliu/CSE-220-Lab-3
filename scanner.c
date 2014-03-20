@@ -195,9 +195,12 @@ Token* get_token()
 				//it contains a loop to skip over all white spaces and chars within the comment
 				ch = skip_comment(ch);
 
-				//Now call get_char on ch to see what we are looking at (could be another comment or more spaces,
-				//so we cannot end loop yet).
-				get_char(&ch);
+			
+			}
+			if(ch == '\0')
+			{
+				get_char(token_string);
+				loop = TRUE;
 			}
 			else
 			{
@@ -249,9 +252,7 @@ Token* get_token()
 }
 static void get_char(char* buffer)
 {
-	int i;
-	size_t length;
-	char *temp_ptr;
+
     /*
      If at the end of the current line (how do you check for that?),
      we should call get source line.  If at the EOF (end of file) we should
@@ -263,28 +264,18 @@ static void get_char(char* buffer)
 	{
 		//need to pass array to get_source_line to fill
 		get_source_line(buffer);
-		temp_ptr = buffer;
-		length = strlen(buffer);
-		i = (int)length;
-		temp_ptr += i;
-		*temp_ptr = '\0';
+		
 		//make src_ptr point to newly filled array from get_source_line
 		src_ptr = buffer;
 		//set ch to the first character of the new line
 		
 	}
-	else
+	else if(*src_ptr == '\0')
 	{
-		if(*src_ptr == '\0')
-		{
-			get_source_line(buffer);
-			temp_ptr = buffer;
-	 		length = strlen(buffer);
-			i = (int)length;
-			temp_ptr += i;
-			*temp_ptr = '\0';
-			src_ptr = buffer;
-		}
+
+		get_source_line(buffer);
+		src_ptr = buffer;
+		
 	}
 }
 static void skip_blanks(char *ch_ptr1)
