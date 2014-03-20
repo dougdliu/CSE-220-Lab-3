@@ -490,8 +490,8 @@ static BOOLEAN is_reserved_word(const char *rPtr, Token* token )
 	//size_t wrd_size = strlen(rPtr);
 	int i, j;
 	char *temp;
-	temp = rw_table[0][0].string;
 	size_t length = strlen(rPtr);
+	temp = rw_table[0][0].string;
 	i = (int)length;
 
 	for(j = 0; j <= 10; j++)
