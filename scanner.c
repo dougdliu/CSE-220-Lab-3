@@ -249,6 +249,9 @@ Token* get_token()
 }
 static void get_char(char* buffer)
 {
+	int i;
+	size_t length;
+	char *temp_ptr
     /*
      If at the end of the current line (how do you check for that?),
      we should call get source line.  If at the EOF (end of file) we should
@@ -260,6 +263,11 @@ static void get_char(char* buffer)
 	{
 		//need to pass array to get_source_line to fill
 		get_source_line(buffer);
+		temp_ptr = buffer;
+		length = strlen(buffer);
+		i = (int)length;
+		temp_ptr += i;
+		*temp_ptr = '\0';
 		//make src_ptr point to newly filled array from get_source_line
 		src_ptr = buffer;
 		//set ch to the first character of the new line
@@ -270,6 +278,11 @@ static void get_char(char* buffer)
 		if(*src_ptr == '\0')
 		{
 			get_source_line(buffer);
+			temp_ptr = buffer;
+	 		length = strlen(buffer);
+			i = (int)length;
+			temp_ptr += i;
+			*temp_ptr = '\0';
 			src_ptr = buffer;
 		}
 	}
@@ -331,7 +344,7 @@ static int get_word(Token* token )
 	int i;
 	CharCode code;
 	char ch = *src_ptr;
-	char built_word[MAX_SOURCE_LINE_LENGTH];
+	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
 
 	code = char_table[ch];
 
