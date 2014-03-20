@@ -205,11 +205,14 @@ Token* get_token()
 	//check to see if it is a digit
 	else if(code == DIGIT)
 	{
+		token->code = NUMBER; // We will later change token->type within the get_number() function because we need to determine if it's an int or float
 		get_number(&ch, token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
 	}
 	//check to see if it is a quote
 	else if(code == QUOTE)
 	{
+		token->code = STRING;
+		token->type = STRING_LIT; // Change the type of the literal to String
 		get_string(&ch, token);
 	}
 	else
@@ -339,6 +342,7 @@ static int get_word(Token* token )
 	{
 		token->word = built_word; //assigns the token to be an identifier.
 		token->code = IDENTIFIER;
+		// Do we just leave token->type as NULL?
 	}
 	return 0;
 }
@@ -370,7 +374,6 @@ static void get_string(char* ch, Token* token)
     // would this function need to have Token **token as the argument since it is receiving a pointer?
     int i;
     char* iterator; // Temp location in string
-    token->type = STRING_LIT; // Change the type of the literal to String
     for(iterator = ch + 1; *iterator != '\'' && *(iterator - 1) != '\\'; iterator++) {} // Find the end of the string, used for finding the size. Skip over escape characters
     token->literal.str_lit = (char*)malloc(iterator - ch); // Allocate memory based on that size
     for(i = 0; i < (iterator - ch - 1); i++) { // Iterate again through string
