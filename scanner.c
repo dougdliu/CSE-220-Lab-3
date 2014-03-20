@@ -161,7 +161,7 @@ Token* get_token()
 
 		//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
 		//until we come to a token
-		if(ch == ' ' || ch == '\0')
+		if(ch == ' ' || ch == '\n')
 		{
 			loop = TRUE;
 		}
@@ -176,12 +176,12 @@ Token* get_token()
 				skip_blanks(&ch);
 
 				//now call get_char again to get a new line if ch is a null terminator
-				if(ch == '\0')
+				if(ch == '\n')
 				{
 					//There may be more spaces, need to continue to evaluate
 					loop = TRUE;
 					//call get_char to get a new source line
-					get_char(&ch);
+					get_char(token_string);
 				}
 				//if the current char being looked at is not a null terminator, go on
 				//to see if it is a comment. If not a comment we will loop to make sure it's not another space
@@ -197,7 +197,7 @@ Token* get_token()
 
 			
 			}
-			if(ch == '\0')
+			if(ch == '\n')
 			{
 				get_char(token_string);
 				loop = TRUE;
@@ -270,7 +270,7 @@ static void get_char(char* buffer)
 		//set ch to the first character of the new line
 		
 	}
-	else if(*src_ptr == '\0')
+	else if(*src_ptr == '\n')
 	{
 
 		get_source_line(buffer);
@@ -420,6 +420,7 @@ static int get_special()
 	int symbol_code;
 	int i;	//counter
 	char check;
+	char *test;
 	char current_char = *src_ptr;
 	char storage[2];
 	char *ptr = storage;
@@ -429,6 +430,7 @@ static int get_special()
 
 	for(i=4;i<=19;i++)
 	{
+		test = SYMBOL_STRINGS2[i];
 		//printf("%s\n", ptr);
 		if(strcmp(ptr, SYMBOL_STRINGS2[i]) == 0)
 		{
