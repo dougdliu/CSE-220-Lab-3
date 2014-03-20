@@ -251,7 +251,7 @@ static void get_char(char* buffer)
 {
 	int i;
 	size_t length;
-	char *temp_ptr
+	char *temp_ptr;
     /*
      If at the end of the current line (how do you check for that?),
      we should call get source line.  If at the EOF (end of file) we should
