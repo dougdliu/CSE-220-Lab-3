@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 #include "scanner.h"
 
 /*******************
@@ -329,7 +330,7 @@ static int get_word(Token* token )
 
     //Downshift the word, to make it lower case
 	downshift_word(built_word); //This downshifts the word
-	
+
     /*
      Write some code to Check if the word is a reserved word.
      if it is not a reserved word its an identifier.
@@ -456,25 +457,37 @@ static void downshift_word(char *dPtr)
 		dPtr++; //increment pointer to look at next character
 	}
 }
-static BOOLEAN is_reserved_word(char const *rPtr, Token* token )
+static BOOLEAN is_reserved_word(const char *rPtr, Token* token )
 {
+
+	//printf("%s\n", rw_table[3][0].string);
+	//int final = strcmp(rw_table[3][0].string, rw_table[3][0].string);
+
     /*
      Examine the reserved word table and determine if the function input is a reserved word.
      */
-	int i, j; // counters for for loops
-	for(i = 0; i <= 9; i++)
-	{
-		for(j = 0; j <= 10; j++)
-		{
+	//printf("%s\n", rPtr);
+	//size_t wrd_size = strlen(rPtr);
+	char *temp;
+	temp = rw_table[0][0].string;
+	size_t length = strlen(rPtr);
+	int i = (int)length;
+	int j;
 
-			//compare the string pointed to be *rPtr to reserved words in rw_table
-			//if match is found return true
-			if(strcmp(rPtr, rw_table[i][j].string) == 0)
-			{
-				token->code = rw_table[i][j].token_code;
-				return TRUE;
-			}
+	for(j = 0; j <= 10; j++)
+	{
+		temp = rw_table[(i-2)][j].string ;
+		if(temp == NULL)
+		{
+			return FALSE;
+		}
+		if(strcmp(rPtr, rw_table[(i-2)][j].string) == 0)
+		{
+			puts("found token");
+			token->code = rw_table[(i-2)][j].token_code;
+			return TRUE;
 		}
 	}
-    return FALSE;
+
+
 }
