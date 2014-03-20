@@ -22,8 +22,8 @@ static void get_char(char *buffer);
 static char skip_comment(char current_ch );
 static void skip_blanks(char *ch_ptr1);
 static int get_word(Token* token );
-static void get_number(char* ch, Token* token);
-static void get_string(char* ch, Token* token );
+static void get_number(Token* token);
+static void get_string(Token* token);
 static int get_special();
 static void downshift_word(char *dPtr);
 static BOOLEAN is_reserved_word(char const *rPtr, Token* token);
@@ -226,12 +226,12 @@ Token* get_token()
 	//check to see if it is a digit
 	else if(code == DIGIT)
 	{
-		get_number(&ch, token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
+		get_number(token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
 	}
 	//check to see if it is a quote
 	else if(code == QUOTE)
 	{
-		get_string(&ch, token);
+		get_string(token);
 	}
 	else
 	{
@@ -327,7 +327,7 @@ static char skip_comment(char current_ch)
      to the first non blank character.  Watch out for the EOF character.
      */
 }
-static int get_word(Token* token )
+static int get_word(Token* token)
 {
     /*
      Write some code to Extract the word
@@ -361,48 +361,58 @@ static int get_word(Token* token )
      */
 	if((is_reserved_word(built_word, token)) == FALSE)//checks to see if the condition is false
 	{
-		token->word = built_word; //assigns the token to be an identifier.
 		token->code = IDENTIFIER;
 	}
+	token->word = built_word; //assigns the token to be an identifier.
 	return 0;
 }
-static void get_number(char* ch, Token* token) {
+static void get_number(Token* token) {
 	int i;
-	char *end, *temp;
-	token->type = INTEGER_LIT; // Assume it's an integer for now
-	for(end = ch; char_table[*end] == DIGIT || *end == 'e' || *end == '.'; end++) {} // Find the end of the number so we know the size
-	temp = (char*)malloc(end - ch); // Allocate memory to the temp based on that size
-	for(i = 0; i <= (end - ch); i++) { // For the whole number
-        	*(temp + i) = *(ch + i); // Copy the number into the temp
+	CharCode code;
+	char ch = *src_ptr;
+	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
 
-		if(*(temp + i) == 'e' || *(temp + i) == '.') { // If there's an 'e', or '.', we change the type to float
-			token->type = REAL_LIT; // Make the type a float
+	code = char_table[ch];
+
+	token->code = NUMBER;
+	token->type = INTEGER_LIT; // Assume it's an integer for now
+	for(i = 0; (code == DIGIT || ch == 'e' || ch == '.'); i++)
+	{
+		if(ch == 'e' || ch == '.') {
+			token->type = REAL_LIT; // If it has an 'e' or a '.', then it's a float
 		}
+		built_word[i] = *src_ptr;
+		src_ptr++;
+		code = char_table[(*src_ptr)];
+		ch = *src_ptr;
 	}
-	if(token->type == INTEGER_LIT) { // If it's an integer
-		token->literal.int_lit = atoi(temp); // Parse the string into an integer. atoi() takes a string and returns an integer
+	built_word[i+1] = '\0';
+
+	if(token->type == INTEGER_LIT) {
+		token->literal.int_lit = atoi(built_word);
 	}
-	else if(token->type == INTEGER_LIT) { // If it's a floating point number
-		token->literal.real_lit = atof(temp); // Parse the string into an double. atoi() takes a string and returns an double
+	else if(token->type == REAL_LIT) {
+		token->literal.real_lit = atof(built_word);
 	}
-	src_ptr = end + 1; // Adjust the global pointer to after the string
-	*ch = *(end + 1); // Set ch to the char after the string ends
-	free(temp); // BE FREE
 }
-static void get_string(char* ch, Token* token)
+static void get_string(Token* token)
 {
-    // would this function need to have Token **token as the argument since it is receiving a pointer?
     int i;
-    char* iterator; // Temp location in string
-    token->type = STRING_LIT; // Change the type of the literal to String
-    for(iterator = ch + 1; *iterator != '\'' && *(iterator - 1) != '\\'; iterator++) {} // Find the end of the string, used for finding the size. Skip over escape characters
-    token->literal.str_lit = (char*)malloc(iterator - ch); // Allocate memory based on that size
-    for(i = 0; i < (iterator - ch - 1); i++) { // Iterate again through string
-        *(token->literal.str_lit + i) = *(ch + i + 1); // Copy the contents of the string to the literal in the Token
-    }
-    *(token->literal.str_lit + (iterator - ch - 1)) = '\0'; // Add a null terminator
-    src_ptr = iterator + 1; // Adjust the global pointer to after the string
-    *ch = *(iterator + 1); // Set ch to the char after the string ends
+	char ch = *(src_ptr+ 1);
+	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
+
+	for(i = 0; (ch != '\'' && ch != '\\'); i++)
+	{
+
+		built_word[i] = *(src_ptr + 1);
+		src_ptr++;
+		ch = *(src_ptr+ 1);
+
+	}
+	built_word[i+1] = '\0';
+	token->code = STRING;
+	token->type = STRING_LIT;
+	token->literal.str_lit = built_word;
 }
 static int get_special()
 {
@@ -411,7 +421,7 @@ static int get_special()
 	int i;	//counter
 	char check;
 	char current_char = *src_ptr;
-	char storage[1];
+	char storage[2];
 	char *ptr = storage;
 
 	storage[0] = *src_ptr;
