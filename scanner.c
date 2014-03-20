@@ -144,49 +144,67 @@ Token* get_token()
 	//otherwise will set ch to what GLOBAL src_ptr is currently looking at.
 	//other methods will set ch to the next char in the source_buffer after they have tokenized
 
-	get_char(&ch);
-    //1.  Skip past all of the blanks
+	get_char(token_string);
+
+		ch = *src_ptr;
+
+		//putchar(ch);
 
 
-	//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
-	//until we come to a token
-	do
-	{
-		if(ch == ' ')
-		{
-			//call function skip_blanks which returns a pointer to the first non-blank character
-			// if it reaches null terminator it will set ch to '\0' and come back here
-			skip_blanks(&ch);
-			//now call get_char again to get a new line if ch is a null terminator
-			if(ch == '\0')
-			{
-				//There may be more spaces, need to continue to evaluate
-				loop = TRUE;
-				//call get_char to get a new source line
-				get_char(&ch);
-			}
-			//if the current char being looked at is not a null terminator, go on
-			//to see if it is a comment. If not a comment we will loop to make sure it's not another space
-		}
-		//now check to see if there is a comment and skip over this as well
-		if(ch == '{')
+		//get_char(&ch);
+		//putchar(ch);
+
+
+		//printf("%c\n", ch);
+	    //1.  Skip past all of the blanks
+
+
+		//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
+		//until we come to a token
+		if(ch == ' ' || ch == '\0')
 		{
 			loop = TRUE;
-			//skip_comment will return the character following the ending bracket
-			//src_ptr will also be pointing here
-			//it contains a loop to skip over all white spaces and chars within the comment
-			ch = skip_comment(ch);
-
-			//Now call get_char on ch to see what we are looking at (could be another comment or more spaces,
-			//so we cannot end loop yet).
-			get_char(&ch);
 		}
-		else
+		while(loop)
 		{
-			loop = FALSE;
-		}
+			//puts("skipping spaces");
+			if(ch == ' ')
+			{
+				//call function skip_blanks which returns a pointer to the first non-blank character
+				// if it reaches null terminator it will set ch to '\0' and come back here
 
-	}while(loop);
+				skip_blanks(&ch);
+
+				//now call get_char again to get a new line if ch is a null terminator
+				if(ch == '\0')
+				{
+					//There may be more spaces, need to continue to evaluate
+					loop = TRUE;
+					//call get_char to get a new source line
+					get_char(&ch);
+				}
+				//if the current char being looked at is not a null terminator, go on
+				//to see if it is a comment. If not a comment we will loop to make sure it's not another space
+			}
+			//now check to see if there is a comment and skip over this as well
+			if(ch == '{')
+			{
+				loop = TRUE;
+				//skip_comment will return the character following the ending bracket
+				//src_ptr will also be pointing here
+				//it contains a loop to skip over all white spaces and chars within the comment
+				ch = skip_comment(ch);
+
+				//Now call get_char on ch to see what we are looking at (could be another comment or more spaces,
+				//so we cannot end loop yet).
+				get_char(&ch);
+			}
+			else
+			{
+				loop = FALSE;
+			}
+
+	}
 
 	//after this do-while loop we know that we are looking at something that is not a space or a comment block
 
@@ -205,14 +223,11 @@ Token* get_token()
 	//check to see if it is a digit
 	else if(code == DIGIT)
 	{
-		token->code = NUMBER; // We will later change token->type within the get_number() function because we need to determine if it's an int or float
 		get_number(&ch, token); //The parameter has to be same as get_word because we need to build a character array to be converted to integers or real numbers
 	}
 	//check to see if it is a quote
 	else if(code == QUOTE)
 	{
-		token->code = STRING;
-		token->type = STRING_LIT; // Change the type of the literal to String
 		get_string(&ch, token);
 	}
 	else
@@ -342,7 +357,6 @@ static int get_word(Token* token )
 	{
 		token->word = built_word; //assigns the token to be an identifier.
 		token->code = IDENTIFIER;
-		// Do we just leave token->type as NULL?
 	}
 	return 0;
 }
@@ -374,6 +388,7 @@ static void get_string(char* ch, Token* token)
     // would this function need to have Token **token as the argument since it is receiving a pointer?
     int i;
     char* iterator; // Temp location in string
+    token->type = STRING_LIT; // Change the type of the literal to String
     for(iterator = ch + 1; *iterator != '\'' && *(iterator - 1) != '\\'; iterator++) {} // Find the end of the string, used for finding the size. Skip over escape characters
     token->literal.str_lit = (char*)malloc(iterator - ch); // Allocate memory based on that size
     for(i = 0; i < (iterator - ch - 1); i++) { // Iterate again through string
