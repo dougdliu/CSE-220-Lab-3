@@ -18,7 +18,7 @@
  return types for functions with ???.
  ******************/
 
-static void get_char(char *ch_ptr2);
+static void get_char(char *buffer);
 static char skip_comment(char current_ch );
 static void skip_blanks(char *ch_ptr1);
 static int get_word(Token* token );
@@ -130,8 +130,8 @@ BOOLEAN get_source_line(char source_buffer[])
 }
 Token* get_token()
 {
-        static char ch = '\0' ; //This can be the current character you are examining during scanning.
-	char token_string[MAX_TOKEN_STRING_LENGTH]; //Store your token here as you build it.
+        char ch; //This can be the current character you are examining during scanning.
+	static char token_string[MAX_TOKEN_STRING_LENGTH]; //Store your token here as you build it.
 	char *token_ptr = token_string; //write some code to point this to the beginning of token_string
 	int loop = FALSE;
 	int symbol_code;
@@ -247,7 +247,7 @@ Token* get_token()
 
    return token; //What should be returned here?
 }
-static void get_char(char* ch_ptr2)
+static void get_char(char* buffer)
 {
     /*
      If at the end of the current line (how do you check for that?),
@@ -255,21 +255,23 @@ static void get_char(char* ch_ptr2)
      set the character ch to EOF and leave the function.
      */
 	//source_buffer to fill by get_source_line
-	char source_buffer[MAX_SOURCE_LINE_LENGTH];
-
-	if (*ch_ptr2 == '\0' || ch_ptr2 == NULL )
+	
+	if (src_ptr == NULL )
 	{
 		//need to pass array to get_source_line to fill
-		get_source_line(source_buffer);
+		get_source_line(buffer);
 		//make src_ptr point to newly filled array from get_source_line
-		src_ptr = source_buffer;
+		src_ptr = buffer;
 		//set ch to the first character of the new line
-		*ch_ptr2 = source_buffer[0];
+		
 	}
 	else
 	{
-		//otherwise ch will just be set to what src_ptr is currently at
-		*ch_ptr2 = *src_ptr;
+		if(*src_ptr == '\0')
+		{
+			get_source_line(buffer);
+			src_ptr = buffer;
+		}
 	}
 }
 static void skip_blanks(char *ch_ptr1)
