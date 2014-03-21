@@ -201,6 +201,7 @@ Token* get_token()
 			{
 				get_char(token_string);
 				loop = TRUE;
+				ch = *src_ptr;
 			}
 			else
 			{
@@ -338,7 +339,7 @@ static int get_word(Token* token)
 	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
 
 	code = char_table[ch];
-
+	
 	for(i = 0; (code == LETTER || code == DIGIT); i++)
 	{
 
