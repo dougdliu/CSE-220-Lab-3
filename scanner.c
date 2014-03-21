@@ -505,6 +505,7 @@ static BOOLEAN is_reserved_word(const char *rPtr, Token* token )
 	//printf("%s\n", rPtr);
 	//size_t wrd_size = strlen(rPtr);
 	int i, j;
+	int bool;
 	char *temp;
 	size_t length = strlen(rPtr);
 	temp = rw_table[0][0].string;
@@ -515,14 +516,16 @@ static BOOLEAN is_reserved_word(const char *rPtr, Token* token )
 		temp = rw_table[(i-2)][j].string ;
 		if(temp == NULL)
 		{
-			return FALSE;
+			bool = FALSE;
 		}
 		if(strcmp(rPtr, rw_table[(i-2)][j].string) == 0)
 		{
 			token->code = rw_table[(i-2)][j].token_code;
-			return TRUE;
+			bool = TRUE;
 		}
 	}
+	
+	
 
 
 }
