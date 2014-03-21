@@ -65,7 +65,7 @@ void print_token(Token *token)
             printf("     >> %-17s%d\n", SYMBOL_STRINGS[token->code], token->literal.int_lit);
         }
         else if(token->type == REAL_LIT) {
-            printf("     >> %-17s%f\n", SYMBOL_STRINGS[token->code], token->literal.real_lit);
+            printf("     >> %-17s%.1e\n", SYMBOL_STRINGS[token->code], token->literal.real_lit);
         }
     }
     else if(token->code == STRING) {
