@@ -404,7 +404,7 @@ static void get_string(Token* token)
 	{
 		src_ptr++;
 		built_word[i] = *src_ptr;
-		ch = *(src_ptr+ 1);
+		ch = *src_ptr;
 	}
 	//increment src_ptr to look at next char in line
 	src_ptr++;
