@@ -161,9 +161,9 @@ Token* get_token()
 
 		//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
 		//until we come to a token
-		if(ch == ' ' || ch == '\n')
+		if(ch == ' ' || ch == '\n' || ch == '{')
 		{
-			loop = TRUE;
+			loop = TRUE; // Execute the loop for skipping spaces, skipping comments, and getting a new line
 		}
 		while(loop)
 		{
