@@ -525,7 +525,7 @@ static BOOLEAN is_reserved_word(const char *rPtr, Token* token )
 		}
 	}
 	
-	
+	return bool;
 
 
 }
