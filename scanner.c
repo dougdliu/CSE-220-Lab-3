@@ -19,7 +19,7 @@
  ******************/
 
 static void get_char(char *buffer);
-static char skip_comment(char current_ch );
+static void skip_comment(char *skip_ptr2);
 static void skip_blanks(char *ch_ptr1);
 static int get_word(Token* token );
 static void get_number(Token* token);
@@ -146,74 +146,62 @@ Token* get_token()
 
 	get_char(token_string);
 
-		ch = *src_ptr;
-
-		//putchar(ch);
-
-
-		//get_char(&ch);
-		//putchar(ch);
-
-
-		//printf("%c\n", ch);
-	    //1.  Skip past all of the blanks
-
-
-		//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
-		//until we come to a token
-		if(ch == ' ' || ch == '\n' || ch == '{')
+	ch = *src_ptr;
+	//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
+	//until we come to a token
+	if(ch == ' ' || ch == '\n' || ch == '{')
+	{
+		loop = TRUE; // Execute the loop for skipping spaces, skipping comments, and getting a new line
+	}
+	while(loop)
+	{
+		
+		//check to see what the current ch is
+		if(ch == ' ')
 		{
-			loop = TRUE; // Execute the loop for skipping spaces, skipping comments, and getting a new line
-		}
-		while(loop)
-		{
-			//puts("skipping spaces");
-			if(ch == ' ')
-			{
-				//call function skip_blanks which returns a pointer to the first non-blank character
-				// if it reaches null terminator it will set ch to '\0' and come back here
-
-				skip_blanks(&ch);
-
-				//now call get_char again to get a new line if ch is a null terminator
-				if(ch == '\n')
-				{
-					//There may be more spaces, need to continue to evaluate
-					loop = TRUE;
-					//call get_char to get a new source line
-					get_char(token_string);
-				}
-				//if the current char being looked at is not a null terminator, go on
-				//to see if it is a comment. If not a comment we will loop to make sure it's not another space
-			}
-			//now check to see if there is a comment and skip over this as well
-			if(ch == '{')
-			{
-				loop = TRUE;
-				//skip_comment will return the character following the ending bracket
-				//src_ptr will also be pointing here
-				//it contains a loop to skip over all white spaces and chars within the comment
-				ch = skip_comment(ch);
-
+			//call function skip_blanks which returns a pointer to the first non-blank character				// if it reaches null terminator it will set ch to '\0' and come back here
 			
-			}
-			if(ch == '\n')
-			{
+			skip_blanks(&ch);
+			
+			//now call get_char again to get a new line if ch is a null terminator
+			if(ch == '\n')				
+			{	
+
+				//call get_char to get a new source line
 				get_char(token_string);
-				loop = TRUE;
 				ch = *src_ptr;
 			}
-			else
-			{
-				loop = FALSE;
-			}
-
+			//after this there may be more spaces or comments, need to continue to evaluae loop
+			loop = TRUE;
+		}
+		//now check to see if there is a comment and skip over this as well
+		else if(ch == '{')
+		{
+			loop = TRUE;
+			//skip_comment will return the character following the ending bracket
+			//src_ptr will also be pointing here
+			//ch will contin current value of src_ptr
+			skip_comment(&ch);
+			
+		}
+		else if(ch == '\n')
+		{
+			get_char(token_string);
+			ch = *src_ptr;
+			loop = TRUE;
+		}
+		else
+		{
+			//if no matches then we are looking at a valid character
+			loop = FALSE;
+			//make sure to update ch to what src_ptr is looking at
+			ch = *src_ptr;
+		}
+		
 	}
 
-	//after this do-while loop we know that we are looking at something that is not a space or a comment block
 
-    //2.  figure out which case you are dealing with LETTER, DIGIT, QUOTE, EOF, or special, by examining ch
-
+	
     //position 'ch' in char_table will return a CharCode corresponding to Letter, Digit, Quote, etc...
 	code = char_table[ch];
 	//check to see if code for ch is a LETTER
@@ -299,29 +287,33 @@ static void skip_blanks(char *ch_ptr1)
 	*ch_ptr1 = *src_ptr;
 
 }
-static char skip_comment(char current_ch)
+static void skip_comment(char *skip_ptr2)
 {
 	//ch will come in as beginning bracket {
-	while(current_ch != '}')
+	while(*src_ptr != '}')
 	{
 		//if current_ch
-		if(current_ch == '\0')
+		if(src_ptr == '\n')
 		{
-			get_char(&current_ch);
+			//decrement src_ptr since we want it to be looking at newline character
+			//after finishing skip_comment and returning to get_token
+			src_ptr--;
+			//break out of while loop since
+			break;
 		}
 		else
 		{
 		//move the src_pointer ahead on the source_line
 		src_ptr++;
-		current_ch = *src_ptr;
+	
 		}
 
 	}
 	//increment src_ptr by 1 to look at what is following the ending bracket
 	src_ptr++;
 
-	current_ch = *src_ptr;
-	return current_ch;
+	//make ch in get_token the value of what src_ptr is looking at
+	*skip_ptr2 = *src_ptr;
 
     /*
      Write some code to skip past the comments in the program and return a pointer
