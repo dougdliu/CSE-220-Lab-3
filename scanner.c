@@ -149,7 +149,7 @@ Token* get_token()
 	ch = *src_ptr;
 	//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
 	//until we come to a token
-	if(ch == ' ' || ch == '\n' || ch == '{' || ch == '\t')
+	if(ch == ' ' || ch == '\n' || ch == '{' || ch == '\r' || ch == '\t')
 	{
 		loop = TRUE; // Execute the loop for skipping spaces, skipping comments, and getting a new line
 	}
@@ -164,7 +164,7 @@ Token* get_token()
 			skip_blanks(&ch);
 			
 			//now call get_char again to get a new line if ch is a null terminator
-			if(ch == '\n')				
+			if(ch == '\n' || ch == '\r')				
 			{	
 
 				//call get_char to get a new source line
@@ -184,7 +184,7 @@ Token* get_token()
 			skip_comment(&ch, token_string);
 			
 		}
-		else if(ch == '\n')
+		else if(ch == '\n' || ch == '\r')
 		{
 			get_char(token_string);
 			ch = *src_ptr;
@@ -259,7 +259,7 @@ static void get_char(char* buffer)
 		//set ch to the first character of the new line
 		
 	}
-	else if(*src_ptr == '\n')
+	else if(*src_ptr == '\n' || *src_ptr == '\r')
 	{
 		
 
