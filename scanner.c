@@ -272,10 +272,10 @@ static void get_char(char* buffer)
 	}
 	else if(*src_ptr == '\n')
 	{
+		
 
 		get_source_line(buffer);
 		src_ptr = buffer;
-		
 	}
 }
 static void skip_blanks(char *ch_ptr1)
@@ -420,7 +420,7 @@ static int get_special()
 	int symbol_code;
 	int i;	//counter
 	char check;
-	char *test;
+	//char *test;
 	char current_char = *src_ptr;
 	char storage[2];
 	char *ptr = storage;
@@ -430,7 +430,7 @@ static int get_special()
 
 	for(i=4;i<=19;i++)
 	{
-		test = SYMBOL_STRINGS2[i];
+		//test = SYMBOL_STRINGS2[i];
 		//printf("%s\n", ptr);
 		if(strcmp(ptr, SYMBOL_STRINGS2[i]) == 0)
 		{
@@ -519,7 +519,6 @@ static BOOLEAN is_reserved_word(const char *rPtr, Token* token )
 		}
 		if(strcmp(rPtr, rw_table[(i-2)][j].string) == 0)
 		{
-			puts("found token");
 			token->code = rw_table[(i-2)][j].token_code;
 			return TRUE;
 		}
