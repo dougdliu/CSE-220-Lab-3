@@ -19,7 +19,7 @@
  ******************/
 
 static void get_char(char *buffer);
-static void skip_comment(char *skip_ptr2);
+static void skip_comment(char *skip_ptr2, char *line);
 static void skip_blanks(char *ch_ptr1);
 static int get_word(Token* token );
 static void get_number(Token* token);
@@ -181,7 +181,7 @@ Token* get_token()
 			//skip_comment will return the character following the ending bracket
 			//src_ptr will also be pointing here
 			//ch will contin current value of src_ptr
-			skip_comment(&ch);
+			skip_comment(&ch, token_string);
 			
 		}
 		else if(ch == '\n')
@@ -287,19 +287,17 @@ static void skip_blanks(char *ch_ptr1)
 	*ch_ptr1 = *src_ptr;
 
 }
-static void skip_comment(char *skip_ptr2)
+static void skip_comment(char *skip_ptr2, char *line)
 {
 	//ch will come in as beginning bracket {
+	//loop until we find an ending bracket
 	while(*src_ptr != '}')
 	{
-		//if current_ch
+		//if we find a newline, call get_char and continue looping
 		if(*src_ptr == '\n')
 		{
-			//decrement src_ptr since we want it to be looking at newline character
-			//after finishing skip_comment and returning to get_token
-			src_ptr--;
-			//break out of while loop since
-			break;
+			//pass in the pointer to token_string to get_char to fill the new line
+			get_char(line);
 		}
 		else
 		{
