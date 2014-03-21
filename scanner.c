@@ -375,7 +375,7 @@ static void get_number(Token* token) {
 
 	token->code = NUMBER;
 	token->type = INTEGER_LIT; // Assume it's an integer for now
-	for(i = 0; (code == DIGIT || ch == 'e' || ch == '.'); i++)
+	for(i = 0; (code == DIGIT || ch == 'e' || ch == '.' || ch == '-'); i++)
 	{
 		if(ch == 'e' || ch == '.') {
 			token->type = REAL_LIT; // If it has an 'e' or a '.', then it's a float
