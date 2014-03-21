@@ -293,7 +293,7 @@ static void skip_comment(char *skip_ptr2)
 	while(*src_ptr != '}')
 	{
 		//if current_ch
-		if(src_ptr == '\n')
+		if(*src_ptr == '\n')
 		{
 			//decrement src_ptr since we want it to be looking at newline character
 			//after finishing skip_comment and returning to get_token
