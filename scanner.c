@@ -400,14 +400,14 @@ static void get_string(Token* token)
 	char ch = *(src_ptr+ 1);
 	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
 
-	for(i = 0; (ch != '\'' && ch != '\\'); i++)
+	for(i = 0; (ch != '\'' && ch != '\r'); i++)
 	{
-
-		built_word[i] = *(src_ptr + 1);
 		src_ptr++;
+		built_word[i] = *src_ptr;
 		ch = *(src_ptr+ 1);
-
 	}
+	//increment src_ptr to look at next char in line
+	src_ptr++;
 	built_word[i+1] = '\0';
 	token->code = STRING;
 	token->type = STRING_LIT;
