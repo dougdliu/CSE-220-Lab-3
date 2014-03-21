@@ -149,7 +149,7 @@ Token* get_token()
 	ch = *src_ptr;
 	//if get_char shows us that we have a blank space or the beginning of a comment we need to skip over all spaces and comments
 	//until we come to a token
-	if(ch == ' ' || ch == '\n' || ch == '{')
+	if(ch == ' ' || ch == '\n' || ch == '{' || ch == '\t')
 	{
 		loop = TRUE; // Execute the loop for skipping spaces, skipping comments, and getting a new line
 	}
@@ -157,7 +157,7 @@ Token* get_token()
 	{
 		
 		//check to see what the current ch is
-		if(ch == ' ')
+		if(ch == ' ' || ch == '\t')
 		{
 			//call function skip_blanks which returns a pointer to the first non-blank character				// if it reaches null terminator it will set ch to '\0' and come back here
 			
@@ -277,7 +277,7 @@ static void skip_blanks(char *ch_ptr1)
 	//if it finds a ull terminator it will break out of while loop
 	//and ch will be set to the null terminator, otherwise it will be set
 	//to whatever character src_ptr is now looking at
-	while(*src_ptr == ' ' && *src_ptr != '\0')
+	while(*src_ptr == ' ' || *src_ptr == '\t')
 	{
 		src_ptr++;
 
