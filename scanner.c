@@ -350,7 +350,7 @@ static int get_word(Token* token)
 	}
 	built_word[i+1] = '\0';
 
-
+	
 
 
     //Downshift the word, to make it lower case
@@ -360,7 +360,15 @@ static int get_word(Token* token)
      Write some code to Check if the word is a reserved word.
      if it is not a reserved word its an identifier.
      */
-	if((is_reserved_word(built_word, token)) == FALSE)//checks to see if the condition is false
+	if(strlen(built_word) > 1)
+	{
+	
+		if((is_reserved_word(built_word, token)) == FALSE)//checks to see if the condition is false
+		{
+			token->code = IDENTIFIER;
+		}
+	}
+	else
 	{
 		token->code = IDENTIFIER;
 	}
