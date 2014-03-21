@@ -215,14 +215,14 @@ Token* get_token()
     //2.  figure out which case you are dealing with LETTER, DIGIT, QUOTE, EOF, or special, by examining ch
 
     //position 'ch' in char_table will return a CharCode corresponding to Letter, Digit, Quote, etc...
-	code = char_table[ch];
+	code = char_table[(int)ch];
 	//check to see if code for ch is a LETTER
 	if(code == LETTER)
 	{
 		//pass in the token_string array to point to, and the current Token struct.
 		//get_word will set the tokens values appropriately so it can be returned
 		//to main
-		get_word( token);
+		get_word(token);
 	}
 	//check to see if it is a digit
 	else if(code == DIGIT)
@@ -338,14 +338,14 @@ static int get_word(Token* token)
 	char ch = *src_ptr;
 	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
 
-	code = char_table[ch];
+	code = char_table[(int)ch];
 	
 	for(i = 0; (code == LETTER || code == DIGIT); i++)
 	{
 
 		built_word[i] = *src_ptr;
 		src_ptr++;
-		code = char_table[(*src_ptr)];
+		code = char_table[(int)(*src_ptr)];
 
 	}
 	built_word[i+1] = '\0';
@@ -373,7 +373,7 @@ static void get_number(Token* token) {
 	char ch = *src_ptr;
 	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
 
-	code = char_table[ch];
+	code = char_table[(int)ch];
 
 	token->code = NUMBER;
 	token->type = INTEGER_LIT; // Assume it's an integer for now
@@ -384,7 +384,7 @@ static void get_number(Token* token) {
 		}
 		built_word[i] = *src_ptr;
 		src_ptr++;
-		code = char_table[(*src_ptr)];
+		code = char_table[(int)(*src_ptr)];
 		ch = *src_ptr;
 	}
 	built_word[i+1] = '\0';
@@ -506,7 +506,7 @@ static BOOLEAN is_reserved_word(const char *rPtr, Token* token )
 	//printf("%s\n", rPtr);
 	//size_t wrd_size = strlen(rPtr);
 	int i, j;
-	
+	int bool;
 	char *temp;
 	size_t length = strlen(rPtr);
 	temp = rw_table[0][0].string;
@@ -517,16 +517,18 @@ static BOOLEAN is_reserved_word(const char *rPtr, Token* token )
 		temp = rw_table[(i-2)][j].string ;
 		if(temp == NULL)
 		{
-			return FALSE;
+			bool = FALSE;
+			break;
 		}
 		if(strcmp(rPtr, rw_table[(i-2)][j].string) == 0)
 		{
 			token->code = rw_table[(i-2)][j].token_code;
-			return TRUE;
+			bool = TRUE;
+			break;
 		}
 	}
 	
-	
+	return bool
 
 
 }
