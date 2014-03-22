@@ -326,7 +326,7 @@ static int get_word(Token* token)
 	int i;
 	CharCode code;
 	char ch = *src_ptr;
-	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
+	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH);
 
 	code = char_table[ch];
 	
@@ -338,7 +338,7 @@ static int get_word(Token* token)
 		code = char_table[(*src_ptr)];
 
 	}
-	built_word[i+1] = '\0';
+	built_word[i] = '\0';
 
 	
 
