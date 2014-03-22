@@ -19,10 +19,10 @@ static *src_ptr = NULL;
 int main( )
 {
 	Token *test_token = malloc(sizeof(Token));
-	char token_string[MAX_SOURCE_LINE_LENGTH];
+	char *new_line;
 
 	//valid
-	get_source_line(token_string);
+	get_source_line(new_line);
 	//invalid
 	get_source_line(test_token);
 

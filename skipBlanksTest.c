@@ -22,13 +22,13 @@ int main( )
 	Token *test_token = malloc(sizeof(Token));
 	src_ptr = test_token;
 	char ch_test1;
-	char string_arr[10] = "Testing";
+	char string_arr[10] = "      Testing";
 
 	char ch_test2;
 
     //call skip_blanks to test valid and invalid parameters
 
-    //This will be a valid parameter but when skip_blanks tries to dereference src_pointer it will be trying
+    //This will be an invalid parameter but when skip_blanks tries to dereference src_pointer it will be trying
     //to dereference a pointer to a Token struct, which will cause an error
     skip_blanks(ch_test1);
     //valid parameter since ch_test2 and src_ptr both contain valid data

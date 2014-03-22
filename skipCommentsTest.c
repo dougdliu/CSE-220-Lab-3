@@ -19,7 +19,7 @@ static *src_ptr = NULL;
 int main( )
 {
 	Token *test_token = malloc(sizeof(Token));
-	char string1[7] = "tester";
+	char string1[9] = "{tester}";
 	char string2[8] = "invalid";
 	char ch1, ch2, ch3;
 
@@ -30,7 +30,7 @@ int main( )
 	//(valid, invalid)
 	skip_comment(ch2, test_token);
 	//(invalid, valid)
-	skip_comment(test_token, ch3);
+	skip_comment(test_token, string1);
 	//(invalid, valid)
 	skip_comment(string2, test_token);
 
