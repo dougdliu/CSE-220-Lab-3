@@ -143,7 +143,7 @@ Token* get_token()
 	//get_char will also set ch to the first character in source_buffer, if the end of line has been reached,
 	//otherwise will set ch to what GLOBAL src_ptr is currently looking at.
 	//other methods will set ch to the next char in the source_buffer after they have tokenized
-
+	token->next = NULL;
 	get_char(token_string);
 
 	ch = *src_ptr;
