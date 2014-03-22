@@ -461,7 +461,6 @@ static int get_special()
 			}
 			else if(check == '>' && current_char == '<')
 			{
-				puts("gets to here");
 				symbol_code = 23;
 				src_ptr += 2;
 				return symbol_code;
