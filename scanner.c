@@ -405,6 +405,9 @@ static void get_string(Token* token)
 	src_ptr++;
 	for(i = 0; (ch != '\'' || pr == '\\'); i++)
 	{
+		if(ch == '\'' && pr == '\\') {
+			i--;
+		}
 		built_word[i] = *src_ptr;
 		pr = *src_ptr;
 		src_ptr++;
