@@ -399,12 +399,14 @@ static void get_string(Token* token)
 {
     int i;
 	char ch = *(src_ptr+ 1);
+	char pr = *src_ptr;
 	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH);
 
 	src_ptr++;
-	for(i = 0; (ch != '\'' && ch != '\\'); i++)
+	for(i = 0; (ch != '\'' || pr == '\\'); i++)
 	{
 		built_word[i] = *src_ptr;
+		pr = *src_ptr;
 		src_ptr++;
 		ch = *src_ptr;
 	}
