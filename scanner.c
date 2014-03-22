@@ -369,7 +369,7 @@ static void get_number(Token* token) {
 	int i;
 	CharCode code;
 	char ch = *src_ptr;
-	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
+	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH);
 
 	code = char_table[ch];
 
@@ -393,12 +393,13 @@ static void get_number(Token* token) {
 	else if(token->type == REAL_LIT) {
 		token->literal.real_lit = atof(built_word);
 	}
+	free(built_word);
 }
 static void get_string(Token* token)
 {
     int i;
 	char ch = *(src_ptr+ 1);
-	char built_word[MAX_SOURCE_LINE_LENGTH] = {""};
+	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH);
 
 	src_ptr++;
 	for(i = 0; (ch != '\''); i++)
@@ -409,7 +410,7 @@ static void get_string(Token* token)
 	}
 	//increment src_ptr to look at next char in line
 	src_ptr++;
-	built_word[i+1] = '\0';
+	built_word[i] = '\0';
 	token->code = STRING;
 	token->type = STRING_LIT;
 	token->literal.str_lit = built_word;
