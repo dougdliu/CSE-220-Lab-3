@@ -119,7 +119,7 @@ BOOLEAN get_source_line(char source_buffer[])
     if (fgets(source_buffer, MAX_SOURCE_LINE_LENGTH, src_file) != NULL)
     {
         ++line_number;
-        sprintf(print_buffer, "%4d: %s", line_number, source_buffer);
+        sprintf(print_buffer, "%4d: %s\n", line_number, source_buffer);
         print_line(print_buffer, src_name, todays_date);
         return (TRUE);
     }
