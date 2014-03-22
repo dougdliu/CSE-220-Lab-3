@@ -402,7 +402,7 @@ static void get_string(Token* token)
 	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH);
 
 	src_ptr++;
-	for(i = 0; (ch != '\''); i++)
+	for(i = 0; (ch != '\'' && ch != '\\'); i++)
 	{
 		built_word[i] = *src_ptr;
 		src_ptr++;
