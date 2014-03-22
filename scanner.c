@@ -294,7 +294,7 @@ static void skip_comment(char *skip_ptr2, char *line)
 	while(*src_ptr != '}')
 	{
 		//if we find a newline, call get_char and continue looping
-		if(*src_ptr == '\n')
+		if(*src_ptr == '\n' || *src_ptr == '\r')
 		{
 			//pass in the pointer to token_string to get_char to fill the new line
 			get_char(line);
