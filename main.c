@@ -49,11 +49,12 @@ void add_token_to_list(Token **sPtr, Token *new_token)
 	
 	Token *currentPtr;
 	//if the currentPtr is null, then point it to the new_token coming in
-	if(currentPtr == NULL) {
+	if(*sPtr == NULL) {
 		
 		currentPtr = new_token;
 		//point the star_ptr to the new_token this is the beginning of the list
 		(*sPtr) = new_token;
+		(*sPtr)->nxt = NULL;
 	}
 	else {
 		//if current_ptr is not null, say that the next token is the incoming token
@@ -61,6 +62,7 @@ void add_token_to_list(Token **sPtr, Token *new_token)
 		//then point current_ptr to the incoming token, this way the previous token will be pointing
 		//to the newest token in the list
 		currentPtr = new_token;
+		currentPtr->next = NULL;
 	}
 }
 void quit_scanner(FILE *src_file, Token *list)
@@ -71,13 +73,14 @@ void quit_scanner(FILE *src_file, Token *list)
         temp = list->next;
         
         // Free the token's internally allocated memory for word and/or str_lit based on the token code
+        /*
         if(list->code == IDENTIFIER) {
             free(list->word);
         }
         else if(list->code == STRING && list->type == STRING_LIT) {
             free(list->literal.str_lit);
         }
-        
+        */
         free(list); // Free the node
         list = temp;
     }
