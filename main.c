@@ -48,22 +48,46 @@ void add_token_to_list(Token **sPtr, Token *new_token)
 	
 	
 	Token *currentPtr;
-	//if the currentPtr is null, then point it to the new_token coming in
-	if(*sPtr == NULL) {
-		
+	Token *previousPtr;
+	
+	previousPtr = NULL;
+	currentPtr = *sPtr;
+	
+	while(currentPtr != NULL) //added a while loop to interate through the list
+	{
+		previousPtr = currentPtr; //interates the ptr.
+		currentPtr = currentPtr->next; //points to the next node.
+	}
+
+	//inserts a new token if there are no token in the linked list
+	if(previousPtr == NULL) {
+
 		currentPtr = new_token;
 		//point the star_ptr to the new_token this is the beginning of the list
 		(*sPtr) = new_token;
-		(*sPtr)->nxt = NULL;
+		(*sPtr)->next = NULL;
 	}
 	else {
-		//if current_ptr is not null, say that the next token is the incoming token
-		currentPtr->next = new_token;
-		//then point current_ptr to the incoming token, this way the previous token will be pointing
-		//to the newest token in the list
-		currentPtr = new_token;
+		//at this point, the currentPtr should be null
+		currentPtr = new_token; //This will add the new_token to the 
 		currentPtr->next = NULL;
 	}
+	//if the currentPtr is null, then point it to the new_token coming in
+	//if(*sPtr == NULL) {
+//	
+//		currentPtr = new_token;
+//		//point the star_ptr to the new_token this is the beginning of the list
+//		(*sPtr) = new_token;
+//		(*sPtr)->nxt = NULL;
+//	}
+//	else {
+//		//if current_ptr is not null, say that the next token is the incoming token
+//		currentPtr->next = new_token;
+//		//then point current_ptr to the incoming token, this way the previous token will be pointing
+//		//to the newest token in the list
+//		currentPtr = new_token;
+//		currentPtr->next = NULL;
+//	}
 }
 void quit_scanner(FILE *src_file, Token *list)
 {
