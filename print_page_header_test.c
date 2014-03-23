@@ -4,6 +4,8 @@
 
 #include "print.h"
 
+static void print_page_header(char source_name[], char date[])
+
 int main()
 {
 	char test_name1[256] = "TestFile.pas"; //valid file name
