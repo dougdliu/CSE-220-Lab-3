@@ -331,22 +331,28 @@ static int get_word(Token* token)
     /*
      Write some code to Extract the word
      */
-	int i;
+	int i; //iterator for the 
 	CharCode code;
 	char ch = *src_ptr;
-	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH);
+	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH); //creates a dynamic char array built_word
 
-	code = char_table[ch];
+	code = char_table[ch]; //figures out the value of the char ch and assigns it to code
+	
+	/*
+	 * This loop will build the word using the character was pointed by src_ptr
+	 * and it will only consider characters that are either a DIGIT or LETTER and
+	 * this is determined by what the char ch's code is.
+	 */
 	
 	for(i = 0; (code == LETTER || code == DIGIT); i++)
 	{
 
-		built_word[i] = *src_ptr;
-		src_ptr++;
-		code = char_table[(*src_ptr)];
+		built_word[i] = *src_ptr; 	//the ith element in built_word is the current src_pointer
+		src_ptr++;		  	//Moves the src_ptr to the next character
+		code = char_table[(*src_ptr)]	//assign the code of the next src_ptr's value in the char_table
 
 	}
-	built_word[i] = '\0';
+	built_word[i] = '\0'; //Sets the end of the char array built_word to be the Null terminator.
 
 	
 
@@ -358,50 +364,60 @@ static int get_word(Token* token)
      Write some code to Check if the word is a reserved word.
      if it is not a reserved word its an identifier.
      */
-	if(strlen(built_word) > 1)
+	if(strlen(built_word) > 1) //checks if the built_word has more than one character and proceeds to check if the word is a reserved word
 	{
 	
 		if((is_reserved_word(built_word, token)) == FALSE)//checks to see if the condition is false
 		{
-			token->code = IDENTIFIER;
+			token->code = IDENTIFIER; //If it's not a reserved word, it will be an identifier
 		}
 	}
 	else
 	{
-		token->code = IDENTIFIER;
+		token->code = IDENTIFIER; //It will be an identifier if word has less than 2 characters.
 	}
 	token->word = built_word; //assigns the token to be an identifier.
 	return 0;
 }
 static void get_number(Token* token) {
-	int i;
-	CharCode code;
-	char ch = *src_ptr;
-	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH);
+	int i; //iterator
+	CharCode code; //This will be used to reference the character's value in the char_table array.
+	char ch = *src_ptr; //ch stores the value of the src_ptr's current value.
+	char *built_word = (char*)malloc(sizeof(char)*MAX_SOURCE_LINE_LENGTH); //creates a dynamic array for built_word
 
-	code = char_table[ch];
+	code = char_table[ch]; //figures out the value of the char ch and assigns it to code
 
-	token->code = NUMBER;
+	token->code = NUMBER; //specifies that this is a number.
 	token->type = INTEGER_LIT; // Assume it's an integer for now
-	for(i = 0; (code == DIGIT || ch == 'e' || ch == '.' || ch == '-'); i++)
+	
+	/*
+	 * This will create a char array of built_word made out of numbers. It will check to see
+	 * if the current digit pointed to by the src_ptr is an int or a real number. It will proceed
+	 */
+	for(i = 0; (code == DIGIT || ch == 'e' || ch == '.' || ch == '-'); i++) 
 	{
 		if(ch == 'e' || ch == '.') {
 			token->type = REAL_LIT; // If it has an 'e' or a '.', then it's a float
 		}
-		built_word[i] = *src_ptr;
-		src_ptr++;
-		code = char_table[(*src_ptr)];
-		ch = *src_ptr;
+		built_word[i] = *src_ptr; //assigns the current value of src_ptr to the i-th element of built_word array
+		src_ptr++; //point to the next character
+		code = char_table[(*src_ptr)]; //assigns the value of char_table(*src_ptr) to code
+		ch = *src_ptr;	//assigns the value of the new src_ptr to ch;
 	}
-	built_word[i+1] = '\0';
+	built_word[i+1] = '\0'; //sets the end of the char_array to a null_terminator.
 
+	/*
+	 * This if-else statement checks the type of the number that was read and if it is an integer
+	 * it will convert the char array into an integer else it would convert it into a float.
+	 *
+	 */
 	if(token->type == INTEGER_LIT) {
-		token->literal.int_lit = atoi(built_word);
+		token->literal.int_lit = atoi(built_word); //Assigns the converted integer into the union literal.int_lit
 	}
 	else if(token->type == REAL_LIT) {
-		token->literal.real_lit = atof(built_word);
+		token->literal.real_lit = atof(built_word); //Assigns the converted flot into the union literal.real_lit
 	}
-	free(built_word);
+	free(built_word); //frees the memory of the built word after it's been used.
 }
 static void get_string(Token* token)
 {
