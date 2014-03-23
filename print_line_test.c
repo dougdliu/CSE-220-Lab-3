@@ -27,14 +27,14 @@ int main()
 	char testline1[] = "This is a test line"; //valid test line
 	char testline2[] = "sdflkjsldkjflsjdfksdfoieieoieoweoeijowejfiojeflwjeflksdjflkagamvmavlkamvksmlsldkmslkdmscscsxcscxsxcsxcscxsklcxmlskxcklsmcxlkmsldkdfjlkajg9pwuertqa"; //invalid test line
 
-	print_line(testname1, testdate1, testline1); //VVV
-	print_line(testname1, testdate1, testline2); //VVI
-	print_line(testname1, testdate2, testline1); //VIV
-	print_line(testname1, testdate2, testline2); //VII
-	print_line(testname2, testdate1, testline1); //IVV
-	print_line(testname2, testdate1, testline2); //IVI
-	print_line(testname2, testdate2, testline1); //IIV
-	print_line(testname2, testdate2, testline2); //III
+	print_line(testline1, testname1, testdate1); //VVV
+	print_line(testline1, testname1, testdate2); //VVI
+	print_line(testline1, testname2, testdate1); //VIV
+	print_line(testline1, testname2, testdate2); //VII
+	print_line(testline2, testname1, testdate1); //IVV
+	print_line(testline2, testname1, testdate2); //IVI
+	print_line(testline2, testname2, testdate1); //IIV
+	print_line(testline2, testname2, testdate2); //III
 }
 
 
