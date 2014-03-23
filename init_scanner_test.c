@@ -72,8 +72,8 @@ int main()
 	FILE test_file2 = fopen("Test.jpg"); //Invalid file
 	char test_name1[256] = "Testcases1.pas"; //Valid name
 	char test_name2[256] = "TestCaseThatIsTooLongForThisToReallyWorkAsItIsGoingToExeedTheAmountOfCharacterThatWeAreAllowedToHaveALKJLKJDSLFKJSDKFJLSDJFLKSDJLFKJLKSDJLFKJSLDKJFLSLKDJFLKJSASDASDASDASDFFFEFEEFEFEFQWDSDQWDQWDASD.PAS"; //Invalid name
-	char test_date1[DATE_STRING_LENGTH]; //Valid date
-	char test_date2[DATE_STRING_LENGTH]; //Invalid date
+	char test_date1[DATE_STRING_LENGTH] = "Thu Mar  4 08:51:35 2014"; //Valid date
+	char test_date2[DATE_STRING_LENGTH] = "Tue Mar4 085135 20"; //Invalid date
 
 	void init_scanner(test_file1, test_name1, test_date1); //VVV
 	void init_scanner(test_file1, test_name1, test_date2); //VVI
