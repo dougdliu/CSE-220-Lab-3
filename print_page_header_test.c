@@ -4,7 +4,7 @@
 
 #include "print.h"
 
-static void print_page_header(char source_name[], char date[])
+static void print_page_header(char source_name[], char date[]);
 
 int main()
 {
