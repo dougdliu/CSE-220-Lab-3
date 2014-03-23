@@ -1,3 +1,5 @@
+//  Nams: Aaron Chasse, Jake Borg, Doug Liu
+//  CSE 220 - Lab 3
 //
 //  scanner.c
 //  Lab3
@@ -5,6 +7,12 @@
 //  Created by Bryce Holton.
 //  Copyright (c) 2014 Bryce Holton. All rights reserved.
 //
+/*  Program description: After being called from main.c the functions in scanner 
+    will get lines of input from a file and build Pascal specific tokens based on
+    the characters it finds in the line. After building a token with the information,
+    get_token() will return a pointer to the built data sructure to the calling function.
+    The token containing a single period will indicate the end of the Pascal code.
+*/
 
 #include <stdio.h>
 #include <ctype.h>
