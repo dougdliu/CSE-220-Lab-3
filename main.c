@@ -1,3 +1,5 @@
+//  Nams: Aaron Chasse, Jake Borg, Doug Liu
+//  CSE 220 - Lab 3
 //
 //  main.c
 //  Lab3
@@ -5,7 +7,13 @@
 //  Created by Bryce Holton.
 //  Copyright (c) 2014 Bryce Holton. All rights reserved.
 //
-
+/*
+    Program description: main.c will continue to call get_token() until get_token() returns
+    a token with the token code of a sigle period, indicating the end of a Pascal source code.
+    With each token returned it will add it to a linked list in the function add_token_to_list.
+    print_token() in print.c will be called on each returned token from get_token() to print the token's value.
+    After reaching the EOF character the linked list will be deconstructed by freeing the memory at each node.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
