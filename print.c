@@ -1,10 +1,20 @@
-//
+//  Names: Aaron Chasse, Jake Borg, Doug Liu
+//  CSE 220 - Lab 3
 //  print.c
 //  Lab3
 //
 //  Created by Bryce Holton.
 //  Copyright (c) 2014 Bryce Holton. All rights reserved.
 //
+/*   
+     Program description: print.c will be used to print the current incoming line from the file
+     being read. It will also print a page header when it determines that the line length is at
+     the predefined MAX_LINES_PER_PAGE. 
+     print_token() will take in a pointer to a token struct and determine what type of data it has,
+     then print its value preceded by the appropriate type.
+
+
+*/
 
 #include "print.h"
 
