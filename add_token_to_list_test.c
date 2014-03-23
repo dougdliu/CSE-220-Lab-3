@@ -13,57 +13,55 @@
 
 void add_token_to_list(Token **head, Token **tail, Token *new_token);
 
-int main( )
+int main()
 {
 	Token *token;
 	Token *tail;
 	Token *head;
 	
 	//valid, valid, valid
-	*head = (Token*)malloc(sizeof(Token));
-	*tail = (Token*)malloc(sizeof(Token));
-	*token = (Token*)malloc(sizeof(Token));
+	
+	head = (Token*)malloc(sizeof(Token));
+	tail = (Token*)malloc(sizeof(Token));
+	token = (Token*)malloc(sizeof(Token));
+	
 	//v,v,i
-	/**
-	*head = (Token*)malloc(sizeof(Token));
-	*tail = (Token*)malloc(sizeof(Token));
-	*token = (Token*)malloc(sizeof(Token));
-	 */
+	/*
+	head = (Token*)malloc(sizeof(Token));
+	tail = (Token*)malloc(sizeof(Token));
+	*/
 	//v,i,v
-	/**
-	*head = (Token*)malloc(sizeof(Token));
-	*tail = (Token*)malloc(sizeof(Token));
-	*token = (Token*)malloc(sizeof(Token));
+	/*
+	head = (Token*)malloc(sizeof(Token));
+	token = (Token*)malloc(sizeof(Token));
+	tail = token;
 	 */
 	//v,i,i
-	/**
-	*head = (Token*)malloc(sizeof(Token));
-	*tail = (Token*)malloc(sizeof(Token));
-	*token = (Token*)malloc(sizeof(Token));
+	/*
+	head = (Token*)malloc(sizeof(Token));
+	tail = NULL;
 	 */
 	//i,v,v
-	/**
-	*head = (Token*)malloc(sizeof(Token));
-	*tail = (Token*)malloc(sizeof(Token));
-	*token = (Token*)malloc(sizeof(Token));
+	/*
+	tail = (Token*)malloc(sizeof(Token));
+	token = (Token*)malloc(sizeof(Token));
+	head = token;
 	 */
 	//i,v,i
-	/**
-	*head = (Token*)malloc(sizeof(Token));
-	*tail = (Token*)malloc(sizeof(Token));
-	*token = (Token*)malloc(sizeof(Token));
+	/*
+	tail = (Token*)malloc(sizeof(Token));
+	token = NULL;
 	 */
 	//i,i,v
-	/**
-	*head = (Token*)malloc(sizeof(Token));
-	*tail = (Token*)malloc(sizeof(Token));
-	*token = (Token*)malloc(sizeof(Token));
+	/*
+	tail = NULL;
+	token = (Token*)malloc(sizeof(Token));
+	head = token;
 	 */
 	//i,i,i
-	/**
-	*head = (Token*)malloc(sizeof(Token));
-	*tail = (Token*)malloc(sizeof(Token));
-	*token = (Token*)malloc(sizeof(Token));
+	/*
+	tail = head;
+	token = NULL;
 	 */
 	add_token_to_list(&head,&tail,token);
 
