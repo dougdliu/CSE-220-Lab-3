@@ -349,7 +349,7 @@ static int get_word(Token* token)
 
 		built_word[i] = *src_ptr; 	//the ith element in built_word is the current src_pointer
 		src_ptr++;		  	//Moves the src_ptr to the next character
-		code = char_table[(*src_ptr)]	//assign the code of the next src_ptr's value in the char_table
+		code = char_table[(*src_ptr)];	//assign the code of the next src_ptr's value in the char_table
 
 	}
 	built_word[i] = '\0'; //Sets the end of the char array built_word to be the Null terminator.
