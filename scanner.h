@@ -1,3 +1,5 @@
+//  Names: Aaron Chasse, Jake Borg, Doug Liu
+//  CSE 220 - Lab 3
 //
 //  scanner.h
 //  Lab3
