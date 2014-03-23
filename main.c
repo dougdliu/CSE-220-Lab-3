@@ -1,4 +1,4 @@
-//  Nams: Aaron Chasse, Jake Borg, Doug Liu
+//  Names: Aaron Chasse, Jake Borg, Doug Liu
 //  CSE 220 - Lab 3
 //
 //  main.c
